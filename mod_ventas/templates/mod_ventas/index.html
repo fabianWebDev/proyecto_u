@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Módulo de Ventas
+{% endblock title %}
+
+{% block content %}
+{% include 'breadcrumbs.html' %}
+    <h1>Módulo de Ventas</h1>
+    <ul>
+        <li><a href="{% url 'productos'%}">Productos</a></li>
+    </ul>
+    <ul>
+        <li><a href="{% url 'descuentos'%}">Descuentos</a></li>
+    </ul>
+    <ul>
+        <li><a href="{% url 'facturas'%}">Facturas</a></li>
+    </ul>
+{% endblock content %}

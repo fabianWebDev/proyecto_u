@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Productos
+{% endblock title %}
+
+{% block content %}
+{% include 'breadcrumbs.html' %}
+    <h1>Productos</h1>
+    <ul>
+        {% for producto in productos %}
+            <li><a href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
+
