@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Producto
 from django.urls import reverse
+from .models import Producto
 
 def productos(request):
     crumbs = [
@@ -27,6 +27,6 @@ def producto_detalle(request, slug):
     ]
     
     return render(request, 'sub_mod_productos/producto_detalle.html', {
-        'producto' : producto,
+        'producto': producto,
         'crumbs': crumbs
     })
