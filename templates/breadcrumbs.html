@@ -1,11 +1,11 @@
 {% if crumbs %}
   <nav aria-label="breadcrumb" class="mt-3">
-    <ol class="breadcrumb bg-light p-3 rounded">
+    <ol class="breadcrumb">
       {% for crumb in crumbs %}
         {% if forloop.last %}
-          <li class="breadcrumb-item active" aria-current="page">{{ crumb.name }}</li>
+          <li class="breadcrumb-item" aria-current="page">{{ crumb.name }}</li>
         {% else %}
-          <li class="breadcrumb-item"><a href="{{ crumb.url }}" class="text-decoration-none text-dark">{{ crumb.name }}</a></li>
+          <li class="breadcrumb-item"><a href="{{ crumb.url }}" class="text-decoration-none">{{ crumb.name }}</a></li>
         {% endif %}
       {% endfor %}
     </ol>

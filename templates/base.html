@@ -39,16 +39,15 @@
           <div class="offcanvas-body">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">
+                <a class="nav-link active" href="{% url 'proveedores_index' %}" aria-current="page">
                   <img class="offcanvas-nav-icon" src="{% static 'icons/inventario.png' %}" alt="icono de inventario">
-                  <a class="nav-link" href="{% url 'proveedores_index' %}">Proveedores</a>
+                  Proveedores
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'ventas_index' %}">
                   <img class="offcanvas-nav-icon" src="{% static 'icons/ventas.png' %}" alt="icono de inventario">
-                  <a class="nav-link" href="{% url 'ventas_index' %}">Ventas</a>
-                </a>
+                  Ventas
                 </a>
               </li>
             </ul>
