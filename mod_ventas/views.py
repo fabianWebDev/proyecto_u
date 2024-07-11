@@ -6,7 +6,14 @@ def index(request):
         {'name': 'Inicio', 'url': '/'},
         {'name': 'Ventas', 'url': '/ventas/'},
     ]
+
+    sub_mods_paths = [
+        'productos',
+        'descuentos',
+        'facturas'
+    ]
     
     return render(request, 'mod_ventas/index.html', {
-        'crumbs':crumbs
+        'crumbs':crumbs,
+        'sub_mods_paths': sub_mods_paths
     })
