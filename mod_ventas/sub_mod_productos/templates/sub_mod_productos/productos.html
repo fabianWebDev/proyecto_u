@@ -7,45 +7,45 @@
 
 {% block content %}
 {% include 'breadcrumbs.html' %}
-    <h1 class="module-title">Productos</h1>
-    <section class="bottom-section d-flex justify-content-center">
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr class="table-header">
-                <th scope="col">Imagen</th>
-                <th scope="col">ID Producto</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Precio Venta</th>
+  <h1 class="module-title">Productos</h1>
+  <section class="bottom-section d-flex justify-content-center">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">Imagen</th>
+              <th scope="col">ID Producto</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Precio Venta</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for producto in productos %}
+              <tr>
+                  <td>
+                      <div class="img-table-container">
+                      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                      </div>
+                  </td>
+                  <td>
+                      <p>{{ producto.id }}</p>
+                  </td>
+                  <td>
+                      <p><a href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a></p>
+                  </td>
+                  <td>
+                      <p>{{ producto.descripcion }}</p>
+                  </td>
+                  <td>
+                      <p>{{ producto.precio }}</p>
+                  </td>
               </tr>
-            </thead>
-            <tbody>
-            {% for producto in productos %}
-                <tr>
-                    <td>
-                        <div class="img-table-container">
-                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-                        </div>
-                    </td>
-                    <td>
-                        <p>{{ producto.id }}</p>
-                    </td>
-                    <td>
-                        <p><a href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a></p>
-                    </td>
-                    <td>
-                        <p>{{ producto.descripcion }}</p>
-                    </td>
-                    <td>
-                        <p>{{ producto.precio }}</p>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </section>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
 {% endblock content %}
 
 

@@ -20,7 +20,6 @@ main {
   text-align: center;
   /* font-weight: 500; */
   margin-top: 16px;
-
 }
 
 .breadcrumb{
@@ -45,7 +44,6 @@ main {
 .breadcrumb-item a{
   color: inherit;
 }
-
 
 /******** NAVBAR ********/
 .navbar {
@@ -106,7 +104,6 @@ main {
 .offcanvas-nav-icon {
   width: 28px;
 }
-
 
 /******** TOP SECTION ********/
 .top-section {
@@ -173,7 +170,7 @@ a .card:hover {
 }
 
 .card-image {
-  width: 28px;
+  width: 60px;
 }
 
 .buttons-container {
@@ -204,7 +201,6 @@ a .card:hover {
   color: #fff;
   background-color: var(--secondary-color);
 }
-
 
 /******** BOTTOM SECTION ********/
 .bottom-section {
@@ -274,7 +270,6 @@ tbody td p {
 .action-icons-container img{
   width: 28px;
 }
-
 
 /******** MODAL ********/
 .modal-header {
