@@ -28,5 +28,7 @@ urlpatterns = [
     path('productos/', include('mod_ventas.sub_mod_productos.urls')),
     path('descuentos/', include('mod_ventas.sub_mod_descuentos.urls')),
     path('facturas/', include('mod_ventas.sub_mod_facturas.urls')),
-    path('proveedores/', include('mod_proveedores.urls')),
+    path('ordenes/', include('mod_ventas.sub_mod_ordenes.urls')),
+    path('proveedores/', include('mod_ventas.sub_mod_proveedores.urls')),
+    path('carrito/', include('mod_ventas.sub_mod_carrito.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

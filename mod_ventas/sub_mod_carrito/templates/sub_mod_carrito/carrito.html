@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Carrito
+{% endblock title %}
+
+{% block content %}
+    <h1>Carrito</h1>
+    <section class="bottom-section d-flex justify-content-center">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table-header">
+                    <th scope="col">Imagen</th>
+                    <th scope="col">ID Producto</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio Venta</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in items_carrito %}
+                    <tr>
+                        <td>
+                            <div class="img-table-container">
+                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
+                            </div>
+                        </td>
+                        <td>
+                            <p>{{ item.producto.id }}</p>
+                        </td>
+                        <td>
+                            <p><a href="{{ item.producto.get_absolute_url }}">{{ item.producto.nombre }}</a></p>
+                        </td>
+                        <td>
+                            <p>{{ item.producto.descripcion }}</p>
+                        </td>
+                        <td>
+                            <p>{{ item.producto.precio }}</p>
+                        </td>
+                        <td>
+                            <p>{{ item.cantidad }}</p>
+                        </td>
+                        <td>
+                            <p><a href="{% url 'carrito_eliminar' item.producto.slug%}">Eliminar</a></p>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

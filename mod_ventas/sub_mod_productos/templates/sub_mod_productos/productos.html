@@ -18,6 +18,7 @@
               <th scope="col">Nombre</th>
               <th scope="col">Descripción</th>
               <th scope="col">Precio Venta</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -40,6 +41,9 @@
                   <td>
                       <p>{{ producto.precio }}</p>
                   </td>
+                  <td>
+                    <p><a href="{% url 'carrito_agregar' producto.slug%}">Agregar</a></p>
+                </td>
               </tr>
           {% endfor %}
           </tbody>
