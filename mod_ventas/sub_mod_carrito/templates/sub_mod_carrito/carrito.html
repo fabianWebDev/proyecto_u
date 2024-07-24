@@ -34,7 +34,8 @@
                             <p>{{ item.cantidad }}</p>
                         </td>
                         <td>
-                            <p><a href="{% url 'carrito_eliminar' item.producto.slug%}">Eliminar</a></p>
+                            <p><a href="{% url 'carrito_eliminar' item.producto.slug%}"><img src="../static\icons\Delete.svg"
+                                alt="icono de eliminar de carrito"></a></a></p>
                         </td>
                     </tr>
                 {% endfor %}
