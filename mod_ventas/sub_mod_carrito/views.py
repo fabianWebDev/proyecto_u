@@ -1,11 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from mod_ventas.sub_mod_productos.models import Producto
 from .models import Carrito, ItemCarrito
 from .utils import get_or_create_carrito
 
-# Create your views here.
 def carrito(request):
-    carrito = get_or_create_carrito(request.session)
+    carrito = Carrito.objects.latest('id')
+    
+    if carrito is None:
+        return HttpResponse("No carrito found for this user.")
+    
     items_carrito = ItemCarrito.objects.filter(carrito=carrito)
     
     return render(request, 'sub_mod_carrito/carrito.html', {
@@ -15,7 +18,7 @@ def carrito(request):
 
 def agregar(request, slug):
     producto = get_object_or_404(Producto, slug=slug)
-    carrito = get_or_create_carrito(request.session)
+    carrito = Carrito.objects.latest('id')
     item_carrito, created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
     
     if not created:
