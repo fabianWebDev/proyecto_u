@@ -54,7 +54,8 @@
                     <p>{{ producto.descripcion }}</p>
                 </td>
                   <td>
-                    <p><a href="{% url 'carrito_agregar' producto.slug%}">Agregar</a></p>
+                    <p><a href="{% url 'carrito_agregar' producto.slug%}"><img src="../static\icons\add-cart.svg"
+                      alt="icono de annadir a carrito"></a></p>
                 </td>
               </tr>
           {% endfor %}
