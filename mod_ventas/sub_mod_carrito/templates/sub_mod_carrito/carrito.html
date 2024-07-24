@@ -11,10 +11,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="table-header">
-                    <th scope="col">Imagen</th>
                     <th scope="col">ID Producto</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
                     <th scope="col">Precio Venta</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Acciones</th>
@@ -24,21 +22,13 @@
                 {% for item in items_carrito %}
                     <tr>
                         <td>
-                            <div class="img-table-container">
-                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
-                            </div>
-                        </td>
-                        <td>
                             <p>{{ item.producto.id }}</p>
                         </td>
                         <td>
-                            <p><a href="{{ item.producto.get_absolute_url }}">{{ item.producto.nombre }}</a></p>
+                            <p>{{ item.producto.nombre }}</p>
                         </td>
                         <td>
                             <p>{{ item.producto.descripcion }}</p>
-                        </td>
-                        <td>
-                            <p>{{ item.producto.precio }}</p>
                         </td>
                         <td>
                             <p>{{ item.cantidad }}</p>

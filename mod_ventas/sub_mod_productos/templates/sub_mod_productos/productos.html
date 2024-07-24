@@ -16,8 +16,11 @@
               <th scope="col">Imagen</th>
               <th scope="col">ID Producto</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Descripción</th>
               <th scope="col">Precio Venta</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Lote</th>
+              <th scope="col">Vencimiento</th>
+              <th scope="col">Descripción</th>
               <th scope="col">Acciones</th>
             </tr>
           </thead>
@@ -33,14 +36,23 @@
                       <p>{{ producto.id }}</p>
                   </td>
                   <td>
-                      <p><a href="{{ producto.get_absolute_url }}">{{ producto.nombre }}</a></p>
+                      <p>{{ producto.nombre }}</p>
                   </td>
                   <td>
-                      <p>{{ producto.descripcion }}</p>
+                    <p>{{ producto.precio_venta }}</p>
                   </td>
                   <td>
-                      <p>{{ producto.precio }}</p>
+                    <p>{{ producto.stock }}</p>
                   </td>
+                  <td>
+                    <p>{{ producto.codigo_lote }}</p>
+                  </td>
+                  <td>
+                      <p>{{ producto.fecha_vencimiento }}</p>
+                  </td>
+                  <td>
+                    <p>{{ producto.descripcion }}</p>
+                </td>
                   <td>
                     <p><a href="{% url 'carrito_agregar' producto.slug%}">Agregar</a></p>
                 </td>
