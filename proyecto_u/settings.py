@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'mod_ventas.sub_mod_ordenes',
     'mod_ventas.sub_mod_proveedores',
     'mod_ventas.sub_mod_carrito',
+    'mod_personas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

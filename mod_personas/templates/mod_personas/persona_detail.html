@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>{{ object.nombre }}</h1>
+    <a href="{% url 'persona_editar' object.pk %}">Editar</a>
+    <a href="{% url 'persona_borrar' object.pk %}">Borrar</a>
+    <a href="{% url 'persona_list' %}">Volver a la lista</a>
+{% endblock %}
