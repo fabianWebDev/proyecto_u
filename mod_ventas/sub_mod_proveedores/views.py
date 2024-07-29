@@ -1,16 +1,47 @@
-from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
+from django.http import Http404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Proveedor
+from .forms import ProveedorForm
 
-# Create your views here.
-def proveedores(request):
-    proveedores = Proveedor.objects.all()
-    return render(request, 'sub_mod_proveedores/proveedores.html',{
-        'proveedores': proveedores,
-    })
+# TODO: Add Breadcrumbs features
+#     crumbs = [
+#         {'name': 'Inicio', 'url': '/'},
+#         {'name': 'Ventas', 'url': '/ventas/'},
+#         {'name': 'Productos', 'url': '/productos/'},
+#         {'name': producto.nombre , 'url': reverse('producto_detalle', args=[producto.slug])},
+#     ]
 
-def proveedor_detalle(request, slug):
-    proveedor = get_object_or_404(Proveedor, slug=slug)
-    return render(request, 'sub_mod_proveedores/proveedor_detalle.html', {
-        'nombre': proveedor.nombre,
-        'descripcion': proveedor.descripcion
-    })
+class ProveedorListView(ListView):
+    model = Proveedor
+    template_name = 'sub_mod_proveedores/proveedor_list.html'
+    context_object_name= 'proveedores'
+    
+class ProveedorDetailView(DetailView):
+    model = Proveedor
+    template_name = 'sub_mod_proveedores/proveedor_detail.html'
+    context_object_name = 'proveedor'
+    
+    # Optionally handle object not found scenario
+    def get_object(self, queryset=None):
+        try:
+            return super().get_object(queryset)
+        except Proveedor.DoesNotExist:
+            raise Http404("Proveedor not found")
+
+class ProveedorCreateView(CreateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'sub_mod_proveedores/proveedor_form.html'
+    success_url = reverse_lazy('proveedor_list')
+
+class ProveedorUpdateView(UpdateView):
+    model = Proveedor
+    form_class = ProveedorForm
+    template_name = 'sub_mod_proveedores/proveedor_form.html'
+    success_url = reverse_lazy('proveedor_list')
+
+class ProveedorDeleteView(DeleteView):
+    model = Proveedor
+    template_name = 'sub_mod_proveedores/proveedor_confirm_delete.html'
+    success_url = reverse_lazy('proveedor_list')

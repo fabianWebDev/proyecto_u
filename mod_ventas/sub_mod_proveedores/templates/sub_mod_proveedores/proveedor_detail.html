@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <h1>{{ object.nombre }}</h1>
+    <p>{{ object.descripcion }}</p>
+    <a href="{% url 'proveedor_editar' object.pk %}">Editar</a>
+    <a href="{% url 'proveedor_borrar' object.pk %}">Borrar</a>
+    <a href="{% url 'proveedor_list' %}">Volver a la lista</a>
+{% endblock %}

@@ -13,7 +13,7 @@ def index(request):
             'descuentos',
             'facturas',
             'ordenes',
-            'proveedores'
+            'proveedor_list'
         ]
         
         return render(request, 'mod_ventas/index.html', {

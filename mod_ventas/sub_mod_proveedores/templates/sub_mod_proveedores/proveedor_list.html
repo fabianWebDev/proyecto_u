@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Proveedores</h1>
+    <a href="{% url 'proveedor_crear' %}">Crear Proveedor</a>
+    <ul>
+        {% for proveedor in object_list %}
+        <li>
+            <a href="{% url 'proveedor_detalle' proveedor.pk %}">{{ proveedor.nombre }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

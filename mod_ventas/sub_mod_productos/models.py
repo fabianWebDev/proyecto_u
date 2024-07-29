@@ -2,9 +2,10 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 from datetime import date
+from mod_ventas.sub_mod_proveedores.models import Proveedor
 
 class Producto(models.Model):
-    # proveedor_id = models.CharField(max_length=255)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, default=1)
     # tipo_producto_id = models.IntegerField()
     imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
     nombre = models.CharField(max_length=150)
