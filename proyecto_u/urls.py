@@ -31,4 +31,5 @@ urlpatterns = [
     path('ordenes/', include('mod_ventas.sub_mod_ordenes.urls')),
     path('proveedores/', include('mod_ventas.sub_mod_proveedores.urls')),
     path('carrito/', include('mod_ventas.sub_mod_carrito.urls')),
+    path('personas/', include('mod_personas.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

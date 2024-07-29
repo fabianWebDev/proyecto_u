@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Personas    </h1>
+    <a href="{% url 'persona_crear' %}">Crear Persona</a>
+    <ul>
+      {% for persona in object_list %}
+        <li>
+          <a href="{% url 'persona_detalle' persona.pk %}">{{ persona.nombre }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+{% endblock %}
