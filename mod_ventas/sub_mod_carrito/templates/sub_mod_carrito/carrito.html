@@ -11,16 +11,23 @@
             <table class="table table-striped">
                 <thead>
                     <tr class="table-header">
+                    <th scope="col">Imagen</th>
                     <th scope="col">ID Producto</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Precio Venta</th>
                     <th scope="col">Cantidad</th>
-                    <th scope="col">Acciones</th>
+                    <th scope="col">Total</th>
+                    {% comment %} <th scope="col">Acciones</th> {% endcomment %}
                     </tr>
                 </thead>
                 <tbody>
                 {% for item in items_carrito %}
                     <tr>
+                        <td>
+                            <div class="img-table-container">
+                            <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
+                            </div>
+                        </td>
                         <td>
                             <p>{{ item.producto.id }}</p>
                         </td>
@@ -28,19 +35,25 @@
                             <p>{{ item.producto.nombre }}</p>
                         </td>
                         <td>
-                            <p>{{ item.producto.descripcion }}</p>
+                            <p>{{ item.producto.precio_venta }}</p>
                         </td>
                         <td>
                             <p>{{ item.cantidad }}</p>
                         </td>
                         <td>
-                            <p><a href="{% url 'carrito_eliminar' item.producto.slug%}"><img src="../static\icons\Delete.svg"
-                                alt="icono de eliminar de carrito"></a></a></p>
+                            <p>{{ item.get_total_price }}</p>
                         </td>
+                        {% comment %} <td>
+                            <p><a href="{% url 'carrito_eliminar' item.producto.id%}"><img src="../static\icons\Delete.svg"
+                                alt="icono de eliminar de carrito"></a></a></p>
+                        </td> {% endcomment %}
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            <h2>Total:
+                <p>{{ precio_total }}</p>
+            </h2>
         </div>
     </section>
 {% endblock content %}

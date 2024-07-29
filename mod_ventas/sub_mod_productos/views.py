@@ -1,33 +1,47 @@
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse_lazy
+from django.http import Http404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Producto
+from .forms import ProductoForm
 
-# Create your views here.
-def productos(request):
-    crumbs = [
-        {'name': 'Inicio', 'url': '/'},
-        {'name': 'Ventas', 'url': '/ventas/'},
-        {'name': 'Productos', 'url': '/productos'},
-    ]
+# TODO: Add Breadcrumbs features
+#     crumbs = [
+#         {'name': 'Inicio', 'url': '/'},
+#         {'name': 'Ventas', 'url': '/ventas/'},
+#         {'name': 'Productos', 'url': '/productos/'},
+#         {'name': producto.nombre , 'url': reverse('producto_detalle', args=[producto.slug])},
+#     ]
 
-    productos = Producto.objects.all()
-    
-    return render(request, 'sub_mod_productos/productos.html', {
-        'productos': productos,
-        'crumbs': crumbs
-    })
+class ProductoListView(ListView):
+    model = Producto
+    template_name = 'sub_mod_productos/producto_list.html'
+    context_object_name = 'productos'
 
-def producto_detalle(request, slug):
-    producto = get_object_or_404(Producto, slug=slug)
-    
-    crumbs = [
-        {'name': 'Inicio', 'url': '/'},
-        {'name': 'Ventas', 'url': '/ventas/'},
-        {'name': 'Productos', 'url': '/productos/'},
-        {'name': producto.nombre , 'url': reverse('producto_detalle', args=[producto.slug])},
-    ]
-    
-    return render(request, 'sub_mod_productos/producto_detalle.html', {
-        'producto': producto,
-        'crumbs': crumbs
-    })
+class ProductoDetailView(DetailView):
+    model = Producto
+    template_name = 'sub_mod_productos/producto_detail.html'
+    context_object_name = 'producto'
+
+    # Optionally handle object not found scenario
+    def get_object(self, queryset=None):
+        try:
+            return super().get_object(queryset)
+        except Producto.DoesNotExist:
+            raise Http404("Producto not found")
+
+class ProductoCreateView(CreateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'sub_mod_productos/producto_form.html'
+    success_url = reverse_lazy('producto_list')
+
+class ProductoUpdateView(UpdateView):
+    model = Producto
+    form_class = ProductoForm
+    template_name = 'sub_mod_productos/producto_form.html'
+    success_url = reverse_lazy('producto_list')
+
+class ProductoDeleteView(DeleteView):
+    model = Producto
+    template_name = 'sub_mod_productos/producto_confirm_delete.html'
+    success_url = reverse_lazy('producto_list')

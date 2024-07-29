@@ -5,15 +5,17 @@ from .utils import get_or_create_carrito
 
 def carrito(request):
     carrito = Carrito.objects.latest('id')
-    
+   
     if carrito is None:
         return HttpResponse("No carrito found for this user.")
     
     items_carrito = ItemCarrito.objects.filter(carrito=carrito)
+    precio_total = sum(item.get_total_price() for item in items_carrito)
     
     return render(request, 'sub_mod_carrito/carrito.html', {
         'carrito': carrito,
-        'items_carrito': items_carrito
+        'items_carrito': items_carrito,
+        'precio_total': precio_total,
     })
 
 def agregar(request, slug):
@@ -25,8 +27,7 @@ def agregar(request, slug):
         item_carrito.cantidad += 1
     
     item_carrito.save()
-    
-    return redirect('carrito')
+    return redirect('productos')
 
 def eliminar(request, item_id):
     item_carrito = get_object_or_404(ItemCarrito, id=item_id)

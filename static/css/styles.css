@@ -113,7 +113,10 @@ main {
 .card {
   width: 166px;
   min-width: 110px;
-  border-radius: 2px;
+  border-radius: 4px;
+  -webkit-box-shadow: 1px 10px 33px -27px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 10px 33px -27px rgba(0,0,0,0.75);
+  box-shadow: 1px 10px 33px -27px rgba(0,0,0,0.75);
 }
 
 a .card:hover {

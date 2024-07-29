@@ -12,5 +12,5 @@ class ItemCarrito(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=1)
 
-    # def get_total_price(self):
-    #     return self.cantidad * self.producto.precio
+    def get_total_price(self):
+        return self.cantidad * self.producto.precio_venta
