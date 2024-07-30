@@ -30,7 +30,7 @@ class Empleado(models.Model):
 class Cliente(models.Model):
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE)
     activo = models.BooleanField(default=True)
-    direccion = models.CharField(max_length=255)
+    direccion = models.CharField(max_length=255, default='')
 
     def __str__(self):
         return f'Cliente: {self.persona.nombre}'
