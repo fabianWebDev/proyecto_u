@@ -18,10 +18,12 @@
     <nav class="navbar">
       <div class="container-fluid container-xxl">
         <div class="d-flex w-100">
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon custom-toggler"></span>
-          </button>
+          {% if user.is_authenticated %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon custom-toggler"></span>
+            </button>
+          {% endif %}
           <div class="logo-container">
             <a class="navbar-brand" href="{% url 'home' %}">
               <img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
@@ -29,7 +31,6 @@
             </a>
           </div>
         </div>
-
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel">
           <div class="offcanvas-header">
@@ -50,6 +51,27 @@
                   Ventas
                 </a>
               </li>
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">
+                    <img class="offcanvas-nav-icon">
+                    Logout
+                  </a>
+                </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">
+                  <img class="offcanvas-nav-icon">
+                  Registrar Usuario
+                </a>
+              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">
+                    <img class="offcanvas-nav-icon">
+                    Login
+                  </a>
+                </li>
+              {% endif %}
             </ul>
           </div>
         </div>
@@ -61,6 +83,13 @@
   </script>
   <body>
     <div class="container">
+      {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+      {% endif %}
       {% block content %}
       {% endblock  %}
     </div>

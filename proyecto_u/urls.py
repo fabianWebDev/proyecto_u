@@ -32,4 +32,6 @@ urlpatterns = [
     path('proveedores/', include('mod_ventas.sub_mod_proveedores.urls')),
     path('carrito/', include('mod_ventas.sub_mod_carrito.urls')),
     path('personas/', include('mod_personas.urls')),
+    path('login/', include('django.contrib.auth.urls')),
+    path('login/', include('mod_login.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

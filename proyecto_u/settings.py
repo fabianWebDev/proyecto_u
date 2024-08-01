@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'mod_ventas.sub_mod_proveedores',
     'mod_ventas.sub_mod_carrito',
     'mod_personas',
+    'mod_login',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -138,3 +139,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after login
+LOGOUT_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after logout
