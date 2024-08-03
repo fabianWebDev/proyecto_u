@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Monto Facturado por Producto</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Monto Total Facturado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for producto in productos %}
+        <tr>
+          <td>{{ producto.producto }}</td>
+          <td>{{ producto.monto_total }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
