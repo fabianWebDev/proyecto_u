@@ -1,13 +1,63 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <h1>Proveedores</h1>
-    <a href="{% url 'proveedor_crear' %}">Crear Proveedor</a>
-    <ul>
+    <h1 class="text-center mt-4">Proveedores</h1>
+    <div class="buttons-container col-12 mt-5">
+        <a  class="btn d-inline" href="">
+          Generar Reporte
+          <img class="btn-icon" src="../static\icons\PDF.svg" alt="icono de pdf">
+        </a>
+        <a  class="btn d-inline" href="{% url 'proveedor_crear' %}">
+          Añadir Proveedor
+          <img class="btn-icon" src="../static\icons\Add.svg" alt="icono de pdf">
+        </a>
+      </div>
+    <section class="bottom-section d-flex justify-content-center">
+        <div class="table-responsive">
+          <table class="table table-striped provider-table">
+            <thead>
+              <tr class="table-header">
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col" class="number">Número Telefónico</th>
+                <th scope="col">Tiempo Despacho</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
         {% for proveedor in object_list %}
-        <li>
-            <a href="{% url 'proveedor_detalle' proveedor.pk %}">{{ proveedor.nombre }}</a>
-        </li>
+            <tr>
+            <td>
+              <p>{{ proveedor.id }}</p>
+            </td>
+            <td>
+              <p>{{ proveedor.nombre }}</p>
+            </td>
+            <td>
+              <p>{{ proveedor.correo }}</p>
+            </td>
+            <td>
+              <p>{{ proveedor.numero_telefonico }}</p>
+            </td>
+            <td>
+              <p>{{ proveedor.tiempo_despacho_aprox }}</p>
+            </td>
+            <td>
+              <div class="action-icons-container">
+                <a href="{% url 'proveedor_editar' proveedor.pk %}">
+                  <img src="../static\icons\Edit.svg" alt="icono de editar">
+                </a>
+                <a href="{% url 'proveedor_borrar' proveedor.pk %}">
+                  <img src="../static\icons\Delete.svg" alt="icono de editar">
+                </a>   
+               </div>
+            </td>
+          </tr>
         {% endfor %}
-    </ul>
+          </tbody>
+        </table>
+        </div>
+      </section>
 {% endblock %}

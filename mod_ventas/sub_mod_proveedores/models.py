@@ -7,8 +7,8 @@ class Proveedor(models.Model):
     correo = models.EmailField(default='')
     numero_telefonico = models.IntegerField(default=0)
     tiempo_despacho_aprox = models.IntegerField(validators=[MinValueValidator(1)], default=0)
-    activo = models.BooleanField(default=True)
     slug = models.SlugField(default='', null=False)
+    activo = models.BooleanField(default=True)
     
     def get_absolute_url(self):
         return reverse("proveedor_detalle", args=[self.slug])
