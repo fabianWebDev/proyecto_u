@@ -274,88 +274,119 @@ tbody td p {
   width: 28px;
 }
 
-/******** MODAL ********/
-.modal-header {
+/******** FORM ********/
+.form-container,
+.confirm-delete-container{
+  max-width: 920px;
+  margin: 30px auto 60px;
+  padding-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.form-header,
+.delete-header {
+  font-size: 32px;
   color: #fff;
   background-color: var(--primary-color);
+  padding: 10px;
 }
 
-.btn-close{
-  outline: none;
-  border: none;
+.product-form {
+  padding: 20px 32px;
+  display: flex;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal-dialog {
-  max-width: 760px;
+.form-group{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 400px;
+  min-width: 280px;
+  max-width: 420px;
 }
 
-.modal .row {
-  row-gap: 16px;
-}
-
-.form-control {
+.product-form input[type="text"],
+.product-form input[type="file"],
+.product-form input[type="number"]{
   background-color: #FAFAFA;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  outline: none;
 }
 
-select{
-  background-color: #FAFAFA !important;
+.product-form input[type="file"]{
+  padding: 5px 12px;
 }
 
-.form-control:focus {
+.product-form select,
+.product-form textarea{
+  background-color: #FAFAFA;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+  outline: none;
+}
+
+.product-form select:focus,
+.product-form textarea:focus{
   box-shadow: none;
   border: 1px solid var(--primary-color);
 }
 
-.checkbox {
+.product-form input:focus {
+  box-shadow: none;
+  border: 1px solid var(--primary-color);
+}
+
+.checkbox-wrapper{
   display: flex;
-  justify-content: start;
+  /* justify-content: end; */
   align-items: end;
-  padding: 8px;
+  padding: 0px 8px;
+  height: 38px;
 }
 
-.form-check-input {
-  width: 48px !important;
-  height: 25px !important;
-  margin-left: 20px !important;
+.product-form input[type="checkbox"]{
+  width: 48px;
+  height: 25px;
+  margin-left: 20px;
 }
 
-.form-check-input:checked {
+.product-form input[type="checkbox"]:checked{
   accent-color: green;
   background-color: var(--primary-color);
 }
 
-.form-check-input {
-  background-color: #CACACA;
+/******** LOGIN ********/
+.login-container{
+  max-width: 700px;
 }
 
-.form-check-input:focus {
-  box-shadow: none;
-  border: none;
+.login-title{
+  font-size: 36px;
+  font-weight: 500;
+  color: var(--primary-color);
 }
 
-.form-check-input:not(:focus) {
-  border: none;
+.login-subtitle{
+  font-size: 32px;
 }
 
-textarea {
-  height: 128px;
-  resize: none;
-}
-
-.modal-footer {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-}
-
-.modal-footer button {
-  padding: 10px 20px;
-}
-
-.remove-modal .modal-body {
-  padding: 64px 0;
+.login-form label{
   font-size: 20px;
-  text-align: center;
+  color: var(--primary-color);
+}
+
+.login-form-group{
+  width: 100%;
 }
 
 /******** RESPONSIVE ********/

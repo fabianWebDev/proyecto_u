@@ -5,18 +5,22 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Login</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="username">Usuario</label>
-          <input name="username" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" name="password" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+    <div class="container-fluid mx-auto my-5 p-5 bg-white login-container">
+      <div class="d-flex flex-column gap-3">
+        <h1 class="login-title">Sistema de Administración</h1>
+        <h1 class="login-subtitle">Login</h1>
+      </div>
+      <form class="login-form d-flex flex-column gap-4 mt-3" action="" method="POST">
+          {% csrf_token %}
+          <div class="login-form-group">
+            <label for="username">Usuario</label>
+            <input name="username" type="text" class="form-control " aria-describedby="emailHelp" placeholder="Ingrese el nombre de usario">
+          </div>
+          <div class="login-form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" class="form-control" name="password" placeholder="Ingrese la contraseña">
+          </div>
+          <button class="btn d-inline w-50 mx-auto mt-3 py-3 text-center " type="submit">Ingresar</button>
+        </form>
+    </div>
 {% endblock content %}

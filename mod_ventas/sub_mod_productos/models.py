@@ -13,19 +13,19 @@ class TipoProducto(models.Model):
         return self.descripcion
 
 class Producto(models.Model):
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, default=1)
-    tipo_producto = models.ForeignKey(TipoProducto, on_delete=models.CASCADE, default=1)
-    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
     nombre = models.CharField(max_length=150)
-    descripcion = models.TextField()
+    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    tipo_producto = models.ForeignKey(TipoProducto, on_delete=models.CASCADE, default=1)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, default=1)
+    precio_compra = models.FloatField(validators=[MinValueValidator(1)], default=0)
+    precio_venta = models.FloatField(validators=[MinValueValidator(1)], default=0)
+    codigo_lote = models.CharField(max_length=150, default='')
     stock = models.IntegerField(default=0)
     descuento = models.FloatField(default=0)
-    precio_venta = models.FloatField(validators=[MinValueValidator(1)], default=0)
-    precio_compra = models.FloatField(validators=[MinValueValidator(1)], default=0)
-    codigo_lote = models.CharField(max_length=150, default='')
     fecha_vencimiento = models.DateField(default=date.today)
-    activo = models.BooleanField(default=True)
     slug = models.SlugField(default='', null=False)
+    activo = models.BooleanField(default=True)
+    descripcion = models.TextField()
 
     def __str__(self):
         return self.nombre

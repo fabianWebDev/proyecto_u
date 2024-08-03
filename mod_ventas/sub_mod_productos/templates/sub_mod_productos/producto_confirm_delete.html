@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Confirmar Borrado de {{ object.nombre }}</h1>
-    <p>¿Está seguro de que desea borrar este producto?</p>
-    <form method="post">
-      {% csrf_token %}
-      <button type="submit">Confirmar</button>
-    </form>
-    <a href="{% url 'producto_list' %}">Cancelar</a>
+    <section class="confirm-delete-container">
+      <h1 class="delete-header">Confirmar Borrado de {{ object.nombre }}</h1>
+      <div class="p-3">
+        <h4 class="text-center h4">¿Está seguro de que desea borrar este producto?</h4>
+        <form method="post" id="f-delete">
+          {% csrf_token %}
+        </form>
+        <div class="d-flex justify-content-center gap-3 mt-5">
+          <button form="f-delete" class="btn" type="submit">Confirmar</button>
+          <a class="d-inline btn" href="{% url 'producto_list' %}">Cancelar</a>
+        </div>
+        
+      </div>
+    </section>
 {% endblock %}
