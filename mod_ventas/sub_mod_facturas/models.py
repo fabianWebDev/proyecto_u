@@ -15,11 +15,11 @@ class Factura(models.Model):
     # servicio_envio = models.ForeignKey(TipoServicio, on_delete=models.SET_DEFAULT, default=1)
 
     def get_absolute_url(self):
-        return reverse("proveedor_detalle", args=[self.id])  # Adjust as needed
+        return reverse("proveedor_detalle", args=[self.id])
 
 class FacturaDetalle(models.Model):
     factura = models.ForeignKey(Factura, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)  # Adjust as needed
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE) 
     cantidad = models.PositiveIntegerField(default=1)
     precio_unitario = models.FloatField(default=0.0)
 

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Mis Órdenes</h2>
+  <ul>
+    {% for orden in ordenes %}
+      <li>
+        <a href="{% url 'detalle_orden' orden.id %}">Orden {{ orden.id }}</a> - 
+        {{ orden.fecha_creacion }} - 
+        {% if orden.completada %}
+          Completada
+        {% else %}
+          No Completada
+          <a href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'crear_orden' %}">Crear Orden</a>
+{% endblock %}
