@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Factura {{ factura.numero_factura }}</h1>
+  <p>Fecha de emisión: {{ factura.fecha_emision }}</p>
+  <p>Total: {{ factura.total }}</p>
+  
+  <h2>Detalles</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for detalle in detalles %}
+        <tr>
+          <td>{{ detalle.producto }}</td>
+          <td>{{ detalle.cantidad }}</td>
+          <td>{{ detalle.precio_unitario }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

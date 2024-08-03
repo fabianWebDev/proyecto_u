@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Orden, OrdenItem
 from .forms import OrdenForm, OrdenItemForm
+from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
+from django.db.models import Sum
 
 @login_required
 def crear_orden(request):
@@ -48,4 +50,24 @@ def completar_orden(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
     orden.completada = True
     orden.save()
+    
+    total_orden = orden.get_total()
+    
+    factura = Factura.objects.create(
+        total=total_orden
+    )
+    
+    # Crear los detalles de la factura
+    for item in orden.items.all():
+        FacturaDetalle.objects.create(
+            factura=factura,
+            producto=item.producto,
+            cantidad=item.cantidad,
+            precio_unitario=item.precio_unitario
+        )
+    
+    # Asociar la factura a la orden
+    orden.factura = factura
+    orden.save()
+    
     return redirect('detalle_orden', orden_id=orden.id)

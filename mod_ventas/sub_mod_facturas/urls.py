@@ -6,4 +6,5 @@ from . import views
 
 urlpatterns = [
     path('', views.facturas, name='facturas'),
+    path('detalle/<int:pk>/', views.factura_detalle, name='factura_detalle'),
 ]

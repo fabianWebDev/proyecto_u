@@ -5,5 +5,14 @@
 {% endblock title %}
 
 {% block content %}
-    <h1>Facturas</h1>
+    <h1>Lista de Facturas</h1>
+    <ul>
+        {% for factura in facturas %}
+            <li>
+                Factura # <a href="{% url 'factura_detalle' factura.id %}">{{ factura.numero_factura }}</a>  - {{ factura.fecha_emision }} - Total: {{ factura.total }}
+            </li>
+        {% empty %}
+            <li>No hay facturas disponibles.</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}

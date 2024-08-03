@@ -12,3 +12,6 @@ class Proveedor(models.Model):
     
     def get_absolute_url(self):
         return reverse("proveedor_detalle", args=[self.slug])
+    
+    def __str__(self):
+        return self.nombre
