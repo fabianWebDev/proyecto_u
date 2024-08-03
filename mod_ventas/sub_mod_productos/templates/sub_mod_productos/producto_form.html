@@ -1,11 +1,36 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block content %}
-    <h1>{% if object %}Editar{% else %}Crear{% endif %} Producto</h1>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Guardar</button>
-    </form>
-    <a href="{% url 'producto_list' %}">Cancelar</a>
+    <section class="form-container">
+      <h1 class="form-header">{% if object %}Editar{% else %}Crear{% endif %} Producto</h1>
+      <form method="post" enctype="multipart/form-data" id="f-product" class="product-form">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+          {% if field.field.widget.input_type == "checkbox" %}
+            <div class="checkbox-wrapper">
+              {{ field.label_tag }}
+              {{ field }}
+            </div>
+          {% else %}
+            {{ field.label_tag }}
+            {{ field }}
+          {% endif %}
+          {% if field.help_text %}
+            <small class="form-text text-muted">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="error">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      </form>
+      <div class="d-flex justify-content-center gap-3 mt-5">
+        <button form="f-product" class="btn" type="submit">Guardar</button>
+        <a class="btn d-inline" href="{% url 'producto_list' %}">Cancelar</a>
+      </div>
+    </section>
 {% endblock %}
