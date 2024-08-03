@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Detalle de Orden</h2>
+    <p>Nombre del colaborador: {{ orden.usuario }}</p>
+    <p>Nombre del cliente: {{ orden.nombre_cliente }}</p>
+    <p>Dirección de Envío: {{ orden.direccion_envio }}</p>
+    <p>Fecha de Creación: {{ orden.fecha_creacion }}</p>
+    <p>Completada: {{ orden.completada }}</p>
+    <h3>Items</h3>
+    <ul>
+    {% for item in items %}
+    <li>{{ item.cantidad }} x {{ item.producto.nombre }}</li>
+    {% endfor %}
+    </ul>
+    {% if not orden.completada %}
+        <a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a>
+        <a href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
+    {% endif %}
+{% endblock %}

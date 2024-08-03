@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'mod_ventas.sub_mod_facturas',
     'mod_ventas.sub_mod_ordenes',
     'mod_ventas.sub_mod_proveedores',
-    'mod_ventas.sub_mod_carrito',
+    # 'mod_ventas.sub_mod_carrito',
     'mod_personas',
     'mod_login',
     'django.contrib.admin',
@@ -143,3 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after login
 LOGOUT_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after logout
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

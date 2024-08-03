@@ -14,7 +14,7 @@ def index(request):
             'producto_list',
             'descuentos',
             'facturas',
-            'ordenes',
+            'crear_orden',
             'proveedor_list'
         ]
         
