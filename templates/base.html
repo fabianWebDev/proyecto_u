@@ -38,11 +38,11 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <div class="offcanvas-body">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav h-100">
               {% if user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link active" href="{% url 'proveedor_list' %}" aria-current="page">
-                    <img class="offcanvas-nav-icon" src="{% static 'icons/inventario.png' %}" alt="icono de inventario">
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/proveedores.svg' %}" alt="icono de inventario">
                     Proveedores
                   </a>
                 </li>
@@ -54,33 +54,33 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'lista_ordenes' %}">
-                    <img class="offcanvas-nav-icon" src="{% static 'icons/ventas.png' %}" alt="icono de inventario">
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/Ordenes.svg' %}" alt="icono de inventario">
                     Ordenes
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'register' %}">
-                    <img class="offcanvas-nav-icon" src="{% static 'icons/ventas.png' %}" alt="icono de inventario">
-                    Registrar Usuario
-                  </a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" href="{% url 'facturas' %}">
-                    <img class="offcanvas-nav-icon" src="{% static 'icons/ventas.png' %}" alt="icono de inventario">
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/facturas.svg' %}" alt="icono de inventario">
                     Facturas
                   </a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'register' %}">
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/add-user.svg' %}" alt="icono de inventario">
+                    Registrar Usuario
+                  </a>
+                </li>
+                <li class="nav-item mt-auto">
                   <a class="nav-link" href="{% url 'logout' %}">
-                    <img class="offcanvas-nav-icon">
-                    Logout
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/logout.svg' %}" alt="icono de cerrar sesion">
+                    Cerrar Sesión
                   </a>
                 </li>
               {% else %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'login' %}">
                     <img class="offcanvas-nav-icon">
-                    Login
+                    Iniciar Sesión
                   </a>
                 </li>
               {% endif %}
