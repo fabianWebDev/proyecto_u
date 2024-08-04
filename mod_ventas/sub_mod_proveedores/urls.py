@@ -7,7 +7,8 @@ from .views import (
     ProveedorDeleteView,
     PagoProveedorListView,
     PagoProveedorDetailView,
-    PagoProveedorCreateView
+    PagoProveedorCreateView,
+    ProveedorReportView
 )
 
 urlpatterns = [
@@ -18,5 +19,6 @@ urlpatterns = [
     path('borrar/<int:pk>/', ProveedorDeleteView.as_view(), name='proveedor_borrar'),
     path('pagos/', PagoProveedorListView.as_view(), name='pago_list'),
     path('pagos/nuevo/', PagoProveedorCreateView.as_view(), name='pago_nuevo'),
-    path('pagos/<int:pk>/', PagoProveedorDetailView.as_view(), name='pago_detalle')
+    path('pagos/<int:pk>/', PagoProveedorDetailView.as_view(), name='pago_detalle'),
+    path('reporte/', ProveedorReportView.as_view(), name='proveedor_reporte')
 ]

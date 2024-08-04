@@ -30,7 +30,6 @@ urlpatterns = [
     path('facturas/', include('mod_ventas.sub_mod_facturas.urls')),
     path('ordenes/', include('mod_ventas.sub_mod_ordenes.urls')),
     path('proveedores/', include('mod_ventas.sub_mod_proveedores.urls')),
-    # path('carrito/', include('mod_ventas.sub_mod_carrito.urls')),
     path('personas/', include('mod_personas.urls')),
     path('login/', include('django.contrib.auth.urls')),
     path('login/', include('mod_login.urls')),

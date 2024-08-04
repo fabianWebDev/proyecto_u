@@ -1,6 +1,10 @@
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.http import Http404
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Sum
+
 from .models import Proveedor, PagoProveedor
 from .forms import ProveedorForm, PagoProveedorForm
 
@@ -61,3 +65,16 @@ class PagoProveedorCreateView(CreateView):
         proveedor.saldo_adeudado -= cantidad
         proveedor.save()
         return super().form_valid(form)
+
+class ProveedorReportView(View):
+    template_name = 'sub_mod_proveedores/proveedor_report.html'
+    
+    def get(self, request):
+        proveedores = Proveedor.objects.all()
+        total_adeudado = proveedores.aggregate(Sum('saldo_adeudado'))['saldo_adeudado__sum'] or 0
+        
+        context = {
+            'proveedores': proveedores,
+            'total_adeudado': total_adeudado,
+        }
+        return render(request, self.template_name, context)

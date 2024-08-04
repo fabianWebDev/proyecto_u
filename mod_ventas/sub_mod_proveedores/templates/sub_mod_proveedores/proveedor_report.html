@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Reporte de Proveedores</h1>
+
+<h2>Total Adeudado: {{ total_adeudado }}</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Número Telefónico</th>
+            <th>Saldo Adeudado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for proveedor in proveedores %}
+        <tr>
+            <td>{{ proveedor.nombre }}</td>
+            <td>{{ proveedor.correo }}</td>
+            <td>{{ proveedor.numero_telefonico }}</td>
+            <td>{{ proveedor.saldo_adeudado }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
