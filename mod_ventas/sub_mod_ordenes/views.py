@@ -1,7 +1,6 @@
-# ordenes/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from .models import Orden, OrdenItem
 from .forms import OrdenForm, OrdenItemForm
 from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
@@ -49,6 +48,7 @@ def lista_ordenes(request):
 def completar_orden(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
     orden.completada = True
+    orden.tiempo_despacho_real = timezone.now()
     orden.save()
     
     total_orden = orden.get_total()
@@ -69,5 +69,11 @@ def completar_orden(request, orden_id):
     # Asociar la factura a la orden
     orden.factura = factura
     orden.save()
+    
+    # Validar el tiempo de despacho
+    if not orden.validar_tiempo_despacho():
+        # Handle the case where the dispatch time is not valid
+        # You can add a message or take some action
+        pass
     
     return redirect('detalle_orden', orden_id=orden.id)
