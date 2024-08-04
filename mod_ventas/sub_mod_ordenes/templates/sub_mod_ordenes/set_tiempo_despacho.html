@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Set Dispatch Time for Order {{ orden.id }}</h2>
+  <form method="post">
+    {% csrf_token %}
+    <label for="tiempo_despacho_real">Dispatch Time:</label>
+    <input type="datetime-local" id="tiempo_despacho_real" name="tiempo_despacho_real">
+    <button type="submit">Set Dispatch Time</button>
+  </form>
+{% endblock %}

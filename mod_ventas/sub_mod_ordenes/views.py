@@ -51,7 +51,6 @@ def lista_ordenes(request):
 def completar_orden(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
     orden.completada = True
-    orden.tiempo_despacho_real = timezone.now()
     orden.save()
     
     total_orden = orden.get_total()
@@ -100,3 +99,16 @@ class OrdenReportView(View):
             'total_revenue': total_revenue,
         }
         return render(request, self.template_name, context)
+
+@login_required
+def set_tiempo_despacho(request, orden_id):
+    orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
+    
+    if request.method == 'POST':
+        tiempo_despacho_real = request.POST.get('tiempo_despacho_real')
+        if tiempo_despacho_real:
+            orden.tiempo_despacho_real = tiempo_despacho_real
+            orden.save()
+            return redirect('detalle_orden', orden_id=orden.id)
+    
+    return render(request, 'sub_mod_ordenes/set_tiempo_despacho.html', {'orden': orden})

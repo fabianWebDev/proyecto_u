@@ -19,4 +19,8 @@
         <a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a>
         <a href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
     {% endif %}
+    {% if not orden.tiempo_despacho_real %}
+        <a href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho real</a>
+    {% endif %}
+    
 {% endblock %}
