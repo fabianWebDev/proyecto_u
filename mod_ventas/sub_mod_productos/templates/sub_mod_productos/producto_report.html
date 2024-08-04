@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Reporte de Productos
+{% endblock title %}
+
+
+{% block content %}
+    <h1>Reporte de Productos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Imagen</th>
+                    <th>Tipo</th>
+                    <th>Proveedor</th>
+                    <th>Precio de Compra</th>
+                    <th>Precio de Venta</th>
+                    <th>Stock</th>
+                    <th>Descuento</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{% if producto.imagen %}<img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width:100px;"/>{% else %}N/A{% endif %}</td>
+                    <td>{{ producto.tipo_producto.nombre }}</td>
+                    <td>{{ producto.proveedor.nombre }}</td>
+                    <td>{{ producto.precio_compra }}</td>
+                    <td>{{ producto.precio_venta }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>{{ producto.descuento }}</td>
+                    <td>{{ producto.fecha_vencimiento }}</td>
+                    <td>{{ producto.descripcion }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Totales</h2>
+        <p>Total Stock: {{ total_stock }}</p>
+        <p>Total Precio de Compra: {{ total_precio_compra }}</p>
+        <p>Total Precio de Venta: {{ total_precio_venta }}</p>
+{% endblock content %}
