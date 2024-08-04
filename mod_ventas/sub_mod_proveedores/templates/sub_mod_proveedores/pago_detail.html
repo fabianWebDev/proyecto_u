@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Detalle del Pago</h2>
+    <p>Proveedor: {{ pago.proveedor.nombre }}</p>
+    <p>Cantidad: {{ pago.cantidad }}</p>
+    <p>Fecha: {{ pago.fecha_pago }}</p>
+    <p>Descripción: {{ pago.descripcion }}</p>
+{% endblock %}

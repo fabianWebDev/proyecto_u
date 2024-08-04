@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Pagos a Proveedores</h2>
+    <a href="{% url 'pago_nuevo' %}">Nuevo Pago</a>
+    <ul>
+    {% for pago in pagos %}
+        <li><a href="{% url 'pago_detalle' pago.id %}">{{ pago.proveedor.nombre }} - {{ pago.cantidad }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}
