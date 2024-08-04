@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="module-title">Reporte de Órdenes</h1>
+    <section class="bottom-section d-flex justify-content-center">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">ID Orden</th>
+              <th scope="col">Usuario</th>
+              <th scope="col">Fecha Creación</th>
+              <th scope="col">Completada</th>
+              <th scope="col">Dirección Envío</th>
+              <th scope="col">Nombre Cliente</th>
+              <th scope="col">Teléfono Cliente</th>
+              <th scope="col">Factura</th>
+              <th scope="col">Tiempo Despacho Esperado</th>
+              <th scope="col">Tiempo Despacho Real</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for orden in orders %}
+          <tr>
+            <td>
+              <p>{{ orden.id }}</p>
+            </td>
+            <td>
+              <p>{{ orden.usuario.username }}</p>
+            </td>
+            <td>
+              <p>{{ orden.fecha_creacion }}</p>
+            </td>
+            <td>
+              <p>{{ orden.completada }}</p>
+            </td>
+            <td>
+              <p>{{ orden.direccion_envio }}</p>
+            </td>
+            <td>
+              <p>{{ orden.nombre_cliente }}</p>
+            </td>
+            <td>
+              <p>{{ orden.numero_telefono_cliente }}</p>
+            </td>
+            <td>
+              <p>{{ orden.factura }}</p>
+            </td>
+            <td>
+              <p>{{ orden.tiempo_despacho_esperado }}</p>
+            </td>
+            <td>
+              <p>{{ orden.tiempo_despacho_real }}</p>
+            </td>
+            <td>
+              <p>{{ orden.get_total }}</p>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <div class="report-summary">
+          <p>Total Órdenes: {{ total_orders }}</p>
+          <p>Total Items: {{ total_items }}</p>
+          <p>Total Ingresos: {{ total_revenue }}</p>
+        </div>
+      </div>
+    </section>
+{% endblock %}

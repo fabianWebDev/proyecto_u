@@ -1,3 +1,6 @@
+from django.shortcuts import render
+from django.views import View
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -77,3 +80,23 @@ def completar_orden(request, orden_id):
         pass
     
     return redirect('detalle_orden', orden_id=orden.id)
+
+class OrdenReportView(View):
+    template_name = 'sub_mod_ordenes/orden_report.html'
+    
+    def get(self, request):
+        # Fetch all orders
+        orders = Orden.objects.all()
+        
+        # Calculate totals
+        total_orders = orders.count()
+        total_items = OrdenItem.objects.aggregate(Sum('cantidad'))['cantidad__sum'] or 0
+        total_revenue = OrdenItem.objects.aggregate(Sum('precio_unitario'))['precio_unitario__sum'] or 0
+        
+        context = {
+            'orders': orders,
+            'total_orders': total_orders,
+            'total_items': total_items,
+            'total_revenue': total_revenue,
+        }
+        return render(request, self.template_name, context)

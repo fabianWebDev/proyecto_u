@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <h2>Mis Órdenes</h2>
+  <a class="btn d-inline" href="{% url 'orden_report' %}">
+    Generar Reporte de Órdenes
+    <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
+  </a>
   <ul>
     {% for orden in ordenes %}
       <li>
