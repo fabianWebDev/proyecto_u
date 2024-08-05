@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'producto_list' %}">
-                    <img class="offcanvas-nav-icon" src="{% static 'icons/ventas.png' %}" alt="icono de inventario">
+                    <img class="offcanvas-nav-icon" src="{% static 'icons/inventario.png' %}" alt="icono de inventario">
                     Productos
                   </a>
                 </li>
@@ -90,20 +90,80 @@
       </div>
     </nav>
   </header>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-  </script>
-  <body>
-    <div class="container-fluid container-xxl">
-      {% if messages %}
+  
+  <div class="layout">
+  
+    {% if user.is_authenticated %}
+      <aside class="menu isOpen">
+      <div class="menu-header">
+        <div class="menu-title">
+          <img src="{% static 'img/logo.svg' %}" alt="">
+          <h2>Sistema Dunamis</h2>
+        </div>
+        <input checked type="checkbox" id="menu-button">
+        <label for="menu-button"><div class="menu-arrow"></div></label>
+      </div>
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'proveedor_list' %}">
+            <img class="nav-icon" src="{% static 'icons/proveedores.svg' %}" alt="icono de inventario">
+            <p class="item-name">Proveedores</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'producto_list' %}">
+            <img class="nav-icon" src="{% static 'icons/inventario.png' %}" alt="icono de inventario">
+            <p class="item-name">Productos</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'lista_ordenes' %}">
+            <img class="nav-icon" src="{% static 'icons/Ordenes.svg' %}" alt="icono de inventario">
+            <p class="item-name">Ordenes</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'facturas' %}">
+            <img class="nav-icon" src="{% static 'icons/facturas.svg' %}" alt="icono de inventario">
+            <p class="item-name">Facturas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'register' %}">
+            <img class="nav-icon" src="{% static 'icons/add-user.svg' %}" alt="icono de inventario">
+            <p class="item-name">Registrar Usuario</p>
+          </a>
+        </li>
+        <li class="nav-item logout">
+          <a class="nav-link active" href="{% url 'logout' %}">
+            <img class="nav-icon" src="{% static 'icons/logout.svg' %}" alt="icono de inventario">
+            <p class="item-name">Cerrar Sesión</p>
+          </a>
+        </li>
+      </ul>
+
+      </aside>
+    {% endif %}
+    <main>
+      <div class="wrapper container">
+        {% if messages %}
           {% for message in messages %}
             <div class="alert alert-success" role="alert">
               {{ message }}
             </div>
           {% endfor %}
-      {% endif %}
-      {% block content %}
-      {% endblock  %}
-    </div>
-  </body>
+        {% endif %}
+        {% block content %}
+        {% endblock  %}
+      </div>
+      
+    </main>
+  </div>
+
+</body>
+<script src="{% static 'scripts/menu-script.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+</script>
 </html>
