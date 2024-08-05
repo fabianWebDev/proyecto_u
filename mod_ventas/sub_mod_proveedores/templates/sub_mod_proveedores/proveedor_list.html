@@ -4,7 +4,7 @@
 {% block content %}
     <h1 class="text-center mt-4">Proveedores</h1>
     <div class="buttons-container col-12 mt-5">
-        <a  class="btn d-inline" href="">
+        <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
           Generar Reporte
           <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
         </a>
@@ -14,10 +14,6 @@
         </a>
         <a  class="btn d-inline" href="{% url 'pago_nuevo' %}">
           Realizar Pago
-          <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
-        </a>
-        <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
-          Reporte de Proveedores
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
         </a>
     </div>

@@ -24,7 +24,6 @@ from proyecto_u import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
-    path('ventas/', include('mod_ventas.urls')),
     path('productos/', include('mod_ventas.sub_mod_productos.urls')),
     path('descuentos/', include('mod_ventas.sub_mod_descuentos.urls')),
     path('facturas/', include('mod_ventas.sub_mod_facturas.urls')),
