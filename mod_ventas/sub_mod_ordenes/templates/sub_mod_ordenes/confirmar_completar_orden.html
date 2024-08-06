@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmar Completar Orden</title>
+</head>
+<body>
+    <h1>¿Estás seguro de que deseas completar la orden?</h1>
+    <p>Orden ID: {{ orden.id }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Sí, completar orden</button>
+        <a href="{% url 'detalle_orden' orden.id %}">Cancelar</a>
+    </form>
+</body>
+</html>

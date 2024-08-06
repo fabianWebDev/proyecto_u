@@ -8,6 +8,8 @@ from .models import Orden, OrdenItem
 from .forms import OrdenForm, OrdenItemForm
 from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
 from django.db.models import Sum
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 @login_required
 def crear_orden(request):
@@ -36,8 +38,13 @@ def agregar_item_orden(request, orden_id):
         if form.is_valid():
             item = form.save(commit=False)
             item.orden = orden
-            item.save()
-            return redirect('detalle_orden', orden_id=orden.id)
+            try:
+                item.save()
+                messages.success(request, 'Item added successfully.')
+                return redirect('detalle_orden', orden_id=orden.id)
+            except ValidationError as e:
+                error_message = e.message if hasattr(e, 'message') else str(e)
+                messages.error(request, error_message)
     else:
         form = OrdenItemForm()
     return render(request, 'sub_mod_ordenes/agregar_item_orden.html', {'form': form, 'orden': orden})
@@ -50,6 +57,11 @@ def lista_ordenes(request):
 @login_required
 def completar_orden(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
+    
+    if not orden.items.exists():
+        # Handle the case where the order has no items
+        return redirect('detalle_orden', orden_id=orden.id)
+
     orden.completada = True
     orden.save()
     
@@ -67,6 +79,9 @@ def completar_orden(request, orden_id):
             cantidad=item.cantidad,
             precio_unitario=item.precio_unitario
         )
+        # Reduce stock after creating the invoice detail
+        item.producto.stock -= item.cantidad
+        item.producto.save()
     
     # Asociar la factura a la orden
     orden.factura = factura
@@ -112,3 +127,41 @@ def set_tiempo_despacho(request, orden_id):
             return redirect('detalle_orden', orden_id=orden.id)
     
     return render(request, 'sub_mod_ordenes/set_tiempo_despacho.html', {'orden': orden})
+
+@login_required
+def confirmar_completar_orden(request, orden_id):
+    orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
+    
+    if request.method == 'POST':
+        # Mark the order as completed and generate invoice
+        if orden.items.exists():
+            orden.completada = True
+            orden.save()
+            
+            total_orden = orden.get_total()
+            
+            factura = Factura.objects.create(total=total_orden)
+            
+            for item in orden.items.all():
+                FacturaDetalle.objects.create(
+                    factura=factura,
+                    producto=item.producto,
+                    cantidad=item.cantidad,
+                    precio_unitario=item.precio_unitario
+                )
+                item.producto.stock -= item.cantidad
+                item.producto.save()
+            
+            orden.factura = factura
+            orden.save()
+            
+            if not orden.validar_tiempo_despacho():
+                messages.warning(request, "El tiempo de despacho no es válido. Por favor, revisa los tiempos de entrega.")
+                return redirect('detalle_orden', orden_id=orden.id)
+            
+            messages.success(request, "La orden ha sido completada y la factura generada correctamente.")
+        else:
+            messages.error(request, "La orden no tiene productos. No se puede completar.")
+        return redirect('detalle_orden', orden_id=orden.id)
+    
+    return render(request, 'sub_mod_ordenes/confirmar_completar_orden.html', {'orden': orden})

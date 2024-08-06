@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
 from mod_ventas.sub_mod_productos.models import Producto
+from django.core.exceptions import ValidationError
 
 class Orden(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -37,6 +38,8 @@ class OrdenItem(models.Model):
 
     def save(self, *args, **kwargs):
         if self.producto:
+            if self.producto.stock < self.cantidad:
+               raise ValidationError(f"No hay suficiente stock del producto: {self.producto.nombre}. Disponible: {self.producto.stock}, Solicitado: {self.cantidad}")
             self.precio_unitario = self.producto.precio_venta
         super().save(*args, **kwargs)
 
