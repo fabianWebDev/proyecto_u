@@ -13,6 +13,7 @@ class ProductoListView(ListView):
     model = Producto
     template_name = 'sub_mod_productos/producto_list.html'
     context_object_name = 'productos'
+    paginate_by = 5
 
 class ProductoDetailView(DetailView):
     model = Producto
@@ -66,7 +67,6 @@ class ProductoDeleteView(DeleteView):
         messages.error(self.request, 'Error al elimnar el producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-    
 class ProductoReportView(View):
     template_name = 'sub_mod_productos/producto_report.html'
     

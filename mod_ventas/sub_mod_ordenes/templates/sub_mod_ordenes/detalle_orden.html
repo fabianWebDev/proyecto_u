@@ -55,8 +55,8 @@
 				</thead>
 				<tbody>
 
-			{% if items %}
-				{% for item in items %}
+			{% if orden.items.all %}
+				{% for item in orden.items.all %}
 					<tr>
 						<td>
 							<p>{{ item.producto.nombre }}</p>
@@ -101,17 +101,8 @@
 	</div>
 <div class="d-flex justify-content-center gap-3 my-5">
 	{% if not orden.completada %}
-		<a class="btn d-inline" href="{% url 'confirmar_completar_orden' orden.id %}">Completar Orden</a>
+		<a class="btn d-inline" href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
 	{% endif %}
-
-	<script>
-	function confirmarCompletarOrden(ordenId) {
-		if (confirm("¿Estás seguro de que deseas completar la orden?")) {
-			window.location.href = "{% url 'completar_orden' orden.id %}".replace('ordenId_placeholder', orden.id);
-		}
-	}
-	</script>
-
 	{% if not orden.tiempo_despacho_real %}
 		<a class="btn d-inline" href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho real</a>
 	{% endif %}

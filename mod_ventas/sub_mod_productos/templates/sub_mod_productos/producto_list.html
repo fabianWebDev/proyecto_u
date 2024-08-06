@@ -39,7 +39,11 @@
           <tr>
           <td>
             <div class="img-table-container">
-            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+              {% if producto.imagen %}
+                  <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+              {% else %}
+                  <p>No image available</p>
+              {% endif %}
             </div>
           </td>
           <td>
@@ -83,6 +87,23 @@
       {% endfor %}
         </tbody>
       </table>
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
       </div>
     </section>
 {% endblock %}

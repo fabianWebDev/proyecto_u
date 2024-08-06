@@ -1,14 +1,21 @@
 from django.urls import path
-from . import views
-from .views import OrdenReportView
+from .views import (
+    OrdenCreateView,
+    OrdenDetailView,
+    AgregarItemOrdenView,
+    OrdenListView,
+    ConfirmarCompletarOrdenView,
+    OrdenReportView,
+    SetTiempoDespachoView
+)
 
 urlpatterns = [
-    path('crear/', views.crear_orden, name='crear_orden'),
-    path('<int:orden_id>/', views.detalle_orden, name='detalle_orden'),
-    path('<int:orden_id>/agregar_item/', views.agregar_item_orden, name='agregar_item_orden'),
-    path('lista/', views.lista_ordenes, name='lista_ordenes'),
-    path('<int:orden_id>/completar/', views.completar_orden, name='completar_orden'),
-    path('orden/completar/confirmar/<int:orden_id>/', views.confirmar_completar_orden, name='confirmar_completar_orden'),
+    path('crear/', OrdenCreateView.as_view(), name='crear_orden'),
+    path('<int:pk>/', OrdenDetailView.as_view(), name='detalle_orden'),
+    path('<int:orden_id>/agregar_item/', AgregarItemOrdenView.as_view(), name='agregar_item_orden'),
+    path('lista/', OrdenListView.as_view(), name='lista_ordenes'),
+    path('confirmar-completar-orden/<int:pk>/', ConfirmarCompletarOrdenView.as_view(), name='confirmar_completar_orden'),
+    path('<int:orden_id>/completar/', ConfirmarCompletarOrdenView.as_view(), name='completar_orden'),
     path('ordenes/report/', OrdenReportView.as_view(), name='orden_report'),
-    path('orden/tiempo_despacho/<int:orden_id>/', views.set_tiempo_despacho, name='set_tiempo_despacho'),
+    path('<int:orden_id>/set_tiempo_despacho/', SetTiempoDespachoView.as_view(), name='set_tiempo_despacho'),
 ]

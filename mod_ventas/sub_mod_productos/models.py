@@ -14,7 +14,7 @@ class TipoProducto(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=150)
-    imagen = models.ImageField(upload_to='productos/', blank=True, null=True)
+    imagen = models.ImageField(upload_to='productos/', blank=True, null=True, default='productos/default.png')
     tipo_producto = models.ForeignKey(TipoProducto, on_delete=models.CASCADE, default=1)
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, default=1)
     precio_compra = models.FloatField(validators=[MinValueValidator(1)], default=0)
