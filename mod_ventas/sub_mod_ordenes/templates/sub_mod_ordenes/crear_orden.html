@@ -1,10 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Crear Orden</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Crear Orden</button>
-  </form>
+  <section class="form-container">
+    <h1 class="form-header">Crear Orden</h1>
+    <form method="post" enctype="multipart/form-data" id="o-product" class="product-form">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+        {% if field.field.widget.input_type == "checkbox" %}
+          <div class="checkbox-wrapper">
+            {{ field.label_tag }}
+            {{ field }}
+          </div>
+        {% else %}
+          {{ field.label_tag }}
+          {{ field }}
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    </form>
+    <div class="d-flex justify-content-center gap-3 mt-5">
+      <button form="o-product" class="btn" type="submit">Guardar</button>
+      <a class="btn d-inline" href="{% url 'lista_ordenes' %}">Cancelar</a>
+    </div>
+  </section>
 {% endblock %}

@@ -350,6 +350,7 @@ th,
   border-bottom: none;
 }
 
+
 .provider-table th{
   min-width: 164px;
   max-width: 164px;
@@ -399,6 +400,27 @@ tbody td p {
 
 .action-icons-container img{
   width: 28px;
+}
+
+.report-table th,
+.report-table td{
+  min-width: fit-content;
+  width: 10px;
+  max-width: 10px;
+}
+
+.order-table th,
+.order-table td{
+  min-width: 250px;
+  font-size: 18px;
+}
+
+.order-table td p {
+  font-size: 18px;
+}
+
+.order-table td p a {
+  color: var(--primary-color);
 }
 
 /******** FORM ********/
@@ -532,6 +554,117 @@ tbody td p {
   border-radius: 6px;
   border: 1px solid #dee2e6;
   outline: none;
+}
+
+/******** REPORT ********/
+.report{
+  margin-top: 32px;
+  background-color: #fff;
+  padding: 48px 16px;
+}
+
+.report-header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 64px;
+}
+
+.logo-container-report{
+  display: flex;
+  align-items: center ;
+  font-size: 32px;
+  font-weight: 600;
+  gap: 8px;
+}
+
+.logo-container-report img{
+  width: 48px;
+}
+
+.report-title{
+  font-size: 36px;
+  font-weight: 600;
+}
+
+.total-info{
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: end;
+}
+
+.total-info-wrapper{
+  background-color: #f2f2f2;
+  width: 320px;
+}
+
+.total-list{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.total-list li{
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.total-list li:not(:last-child){
+  border-bottom: 1px solid #000;
+}
+
+/******** RESPONSIVE ********/
+.order-details,
+.order-items{
+  padding: 24px;
+  background-color: #fff;
+  border: 1px solid #CACACA;
+  border-radius: 4px;
+}
+
+.order-details-title,
+.order-items-title{
+  margin-bottom: 24px;
+}
+
+.order-wrapper{
+  display: flex;
+}
+
+.client,
+.shipment,
+.details{
+  flex-basis: 33.3%;
+}
+
+.client h3,
+.shipment h3,
+.details h3{
+  font-size: 20px;
+  color: var(--primary-color);
+}
+
+.order-details-list{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin-top: 16px;
+  list-style: none;
+  font-weight: 600;
+}
+
+.order-details-title{
+  font-size: 24px;
+}
+
+.order-details-list span{
+  font-weight: 400;
+  color: var(--secondary-color);
 }
 
 /******** RESPONSIVE ********/

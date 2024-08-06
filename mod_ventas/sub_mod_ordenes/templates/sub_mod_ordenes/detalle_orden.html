@@ -1,26 +1,110 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Detalle de Orden</h2>
-    <p>Nombre del colaborador: {{ orden.usuario }}</p>
-    <p>Nombre del cliente: {{ orden.nombre_cliente }}</p>
-    <p>Dirección de Envío: {{ orden.direccion_envio }}</p>
-    <p>Fecha de Creación: {{ orden.fecha_creacion }}</p>
-    <p>Tiempo despacho esperado: {{ orden.tiempo_despacho_esperado }}</p>
-    <p>Tiempo de despacho actual: {{ orden.tiempo_despacho_real }}</p>
-    <p>Completada: {{ orden.completada }}</p>
-    <h3>Items</h3>
-    <ul>
-    {% for item in items %}
-    <li>{{ item.cantidad }} x {{ item.producto.nombre }}</li>
-    {% endfor %}
-    </ul>
-    {% if not orden.completada %}
-        <a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a>
-        <a href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
-    {% endif %}
-    {% if not orden.tiempo_despacho_real %}
-        <a href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho real</a>
-    {% endif %}
-    
+	<!-- <h1 class="text-center my-5">Detalle de Orden</h1> -->
+	<div class="order-details mt-5">
+
+		<h2 class="order-details-title">Información</h2>
+		<div class="order-wrapper">
+			<div class="details">
+				<h3>Detalle</h3>
+				<ul class="order-details-list">
+					<li>Fecha de creación: <span>{{ orden.fecha_creacion }}</span></li>
+					<li>Nombre del colaborador: <span>{{ orden.usuario }}</span></li>				
+				{% if orden.completada %}
+					<li>Estado de orden: <span>Completada</span></li>
+				{% else %}
+					<li>Estado de orden: <span>No completada</span></li>
+        {% endif %}
+				</ul>
+			</div>
+
+			<div class="shipment">
+				<h3>Envío</h3>
+				<ul class="order-details-list">
+					<li>Dirección: <span>{{ orden.direccion_envio }}</span></li>
+					<li>Tiempo despacho esperado: <span>{{ orden.tiempo_despacho_esperado }}</span></l>
+				{% if objeto.tiempo_despacho_real %}
+					<li>Tiempo despacho final: <span>{{ orden.tiempo_despacho_real }}</span></li>
+					{% else %}
+					<li>Tiempo despacho final: <span>Pendiente</span></li>
+				{% endif %}
+				</ul>
+			</div>
+
+			<div class="client">
+				<h3>Cliente</h3>
+				<ul class="order-details-list">
+					<li>Nombre: <span>{{ orden.nombre_cliente }}</span></li>
+					<li>Número Telefónico: <span>{{ orden.numero_telefono_cliente }}</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="order-items mt-3">
+		<h3 class="order-items-title">Productos</h3>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr class="table-header">
+						<th scope="col">Nombre</th>
+						<th scope="col">Cantidad</th>
+						<th scope="col">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+
+			{% if items %}
+				{% for item in items %}
+					<tr>
+						<td>
+							<p>{{ item.producto.nombre }}</p>
+						</td>
+						<td>
+							<p>{{ item.cantidad }}</p>
+						</td>
+						<td>
+							<p>-</p>
+						</td>
+				{% endfor %}
+			{% else %}
+					<td>
+						<p>{{ item.producto.nombre }}</p>
+					</td>
+					<td>
+						<p>{{ item.cantidad }}</p>
+					</td>
+				{% if not orden.completada %}
+					<td>
+						<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
+					</td>
+				{% endif %}
+			{% endif %}
+				</tr>
+				<tr>
+					<td>
+						<p>-</p>
+					</td>
+					<td>
+						<p>-</p>
+					</td>
+					{% if not orden.completada %}
+					<td>
+						<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
+					</td>
+				{% endif %}
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+<div class="d-flex justify-content-center gap-3 my-5">
+	{% if not orden.completada %}
+		<a class="btn d-inline" href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
+	{% endif %}
+	{% if not orden.tiempo_despacho_real %}
+		<a class="btn d-inline" href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho real</a>
+	{% endif %}
+</div>
 {% endblock %}

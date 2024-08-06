@@ -1,25 +1,58 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends "base.html" %}
+{% load static %} 
 
 {% block content %}
-  <h2>Mis Órdenes</h2>
-  <a class="btn d-inline" href="{% url 'orden_report' %}">
-    Generar Reporte de Órdenes
-    <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
-  </a>
-  <ul>
-    {% for orden in ordenes %}
-      <li>
-        <a href="{% url 'detalle_orden' orden.id %}">Orden {{ orden.id }}</a> - 
-        {{ orden.fecha_creacion }} - 
+
+  <h1 class="module-title">Órdenes</h1>
+    <div class="buttons-container col-12 mt-5">
+      <a  class="btn d-inline"  href="{% url 'orden_report' %}">
+        Generar Reporte
+        <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
+      </a>
+      <a  class="btn d-inline" href="{% url 'crear_orden' %}">
+        Crear Orden
+        <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pdf">
+      </a>
+    </div>
+    <section class="bottom-section d-flex justify-content-center">
+      <div class="table-responsive">
+        <table class="table table-striped order-table">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">Orden ID</th>
+              <th scope="col">Fecha de Creación</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+      {% for orden in ordenes %}
+          <tr>
+          <td>
+            <p><a href="{% url 'detalle_orden' orden.id %}">Orden {{ orden.id }}</a></p>
+          </td>
+          <td>
+            <p>{{ orden.fecha_creacion }}</p>
+          </td>
         {% if orden.completada %}
-          Completada
+          <td>
+            <p>Completada</p>
+          </td>
+          <td>
+            <p>-</p>
+          </td>
         {% else %}
-          No Completada
-          <a href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
+          <td>
+            <p>No completada</p>
+          </td>
+          <td>
+            <p><a href="{% url 'completar_orden' orden.id %}">Completar Orden</a></p>
+          </td>
         {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'crear_orden' %}">Crear Orden</a>
+        </tr>
+      {% endfor %}
+        </tbody>
+      </table>
+      </div>
+    </section>
 {% endblock %}

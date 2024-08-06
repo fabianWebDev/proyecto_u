@@ -1,28 +1,56 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1>Reporte de Proveedores</h1>
+<section class="report">
+	<div class="report-header">
+		<h1 class="report-title">Reporte de Proveedores</h1>
+		<div class="logo-container-report">
+			<img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
+			DUNAMIS S.A
+		</div>
+	</div>
+	<div class="table-responsive">
+		<table class="table report-table table-striped">
+			<thead>
+				<tr class="table-header">
+					<th scope="col">Proveedor ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Correo</th>
+					<th scope="col">Número Telefónico</th>
+					<th scope="col">Saldo Adeudado</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for proveedor in proveedores %}
+				<tr>
+					<td>
+						<p>{{ proveedor.id }}</p>
+					</td>
+					<td>
+						<p>{{ proveedor.nombre }}</p>
+					</td>
+					<td>
+						<p>{{ proveedor.correo }}</p>
+					</td>
+					<td>
+						<p>{{ proveedor.numero_telefonico }}</p>
+					</td>
+					<td>
+						<p>{{ proveedor.saldo_adeudado }}</p>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="total-info">
+		<div class="total-info-wrapper">
+			<ul class="total-list">
+				<li>Total Adeudado: <span>₡ {{ total_adeudado }}</span></li>
+			</ul>
+		</div>
+	</div>
+</section>
 
-<h2>Total Adeudado: {{ total_adeudado }}</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Número Telefónico</th>
-            <th>Saldo Adeudado</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for proveedor in proveedores %}
-        <tr>
-            <td>{{ proveedor.nombre }}</td>
-            <td>{{ proveedor.correo }}</td>
-            <td>{{ proveedor.numero_telefonico }}</td>
-            <td>{{ proveedor.saldo_adeudado }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %} 
 
 {% block title %}
     Reporte de Productos
@@ -6,41 +7,79 @@
 
 
 {% block content %}
-    <h1>Reporte de Productos</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Imagen</th>
-                    <th>Tipo</th>
-                    <th>Proveedor</th>
-                    <th>Precio de Compra</th>
-                    <th>Precio de Venta</th>
-                    <th>Stock</th>
-                    <th>Descuento</th>
-                    <th>Fecha de Vencimiento</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for producto in productos %}
-                <tr>
-                    <td>{{ producto.nombre }}</td>
-                    <td>{% if producto.imagen %}<img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width:100px;"/>{% else %}N/A{% endif %}</td>
-                    <td>{{ producto.tipo_producto.nombre }}</td>
-                    <td>{{ producto.proveedor.nombre }}</td>
-                    <td>{{ producto.precio_compra }}</td>
-                    <td>{{ producto.precio_venta }}</td>
-                    <td>{{ producto.stock }}</td>
-                    <td>{{ producto.descuento }}</td>
-                    <td>{{ producto.fecha_vencimiento }}</td>
-                    <td>{{ producto.descripcion }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        <h2>Totales</h2>
-        <p>Total Stock: {{ total_stock }}</p>
-        <p>Total Precio de Compra: {{ total_precio_compra }}</p>
-        <p>Total Precio de Venta: {{ total_precio_venta }}</p>
+  <section class="report">
+		<div class="report-header">
+			<h1 class="report-title">Reporte de Productos</h1>
+			<div class="logo-container-report">
+				<img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
+				DUNAMIS S.A
+			</div>		
+		</div>
+      <div class="table-responsive">
+      	<table class="table report-table table-striped">
+        	<thead>
+          	<tr class="table-header">
+            	<th scope="col">Imagen</th>
+              <th scope="col">ID Producto</th>
+              <th scope="col">Categoría</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Precio Venta</th>
+              <th scope="col">Proveedor</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Lote</th>
+              <th scope="col">Vencimiento</th>
+              <th scope="col">Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+      {% for producto in productos %}
+          <tr>
+          <td>
+            <div class="img-table-container">
+            <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+            </div>
+          </td>
+          <td>
+            <p>{{ producto.id }}</p>
+          </td>
+          <td>
+            <p>{{ producto.tipo_producto }}</p>
+          </td>
+          <td>
+            <p>{{ producto.nombre }}</p>
+          </td>
+          <td>
+            <p>{{ producto.precio_venta }}</p>
+          </td>
+          <td>
+            <p>{{ producto.proveedor.nombre }}</p>
+          </td>
+          <td>
+            <p>{{ producto.stock }}</p>
+          </td>
+          <td>
+            <p>{{ producto.codigo_lote }}</p>
+          </td>
+          <td>
+            <p>{{ producto.fecha_vencimiento }}</p>
+          </td>
+          <td>
+            <p>{{ producto.descripcion }}</p>
+          </td>
+        </tr>
+      {% endfor %}
+        </tbody>
+      </table>
+      </div>
+			<div class="total-info">
+				<div class="total-info-wrapper">
+					<ul class="total-list">
+						<li>Total Stock: <span>{{ total_stock }}</span></li>
+						<li>Total Precio de Compra: <span>₡ {{ total_precio_compra }}</span></li>
+						<li>Total Precio de Venta: <span>₡ {{ total_precio_venta }}</span></li>
+					</ul>
+				</div>
+			</div>
+    </section>
+    
 {% endblock content %}
