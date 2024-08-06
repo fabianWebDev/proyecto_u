@@ -33,21 +33,29 @@ def detalle_orden(request, orden_id):
 @login_required
 def agregar_item_orden(request, orden_id):
     orden = get_object_or_404(Orden, id=orden_id, usuario=request.user)
+    
     if request.method == 'POST':
         form = OrdenItemForm(request.POST)
         if form.is_valid():
             item = form.save(commit=False)
+            
+            # Asignar la orden al item
             item.orden = orden
+            
             try:
                 item.save()
                 messages.success(request, 'Item added successfully.')
                 return redirect('detalle_orden', orden_id=orden.id)
             except ValidationError as e:
-                error_message = e.message if hasattr(e, 'message') else str(e)
-                messages.error(request, error_message)
+                # Handle the validation error raised by the model
+                messages.error(request, e.message)
+        else:
+            messages.error(request, 'Formulario inválido.')
     else:
         form = OrdenItemForm()
+        
     return render(request, 'sub_mod_ordenes/agregar_item_orden.html', {'form': form, 'orden': orden})
+
 
 @login_required
 def lista_ordenes(request):
@@ -149,8 +157,6 @@ def confirmar_completar_orden(request, orden_id):
                     cantidad=item.cantidad,
                     precio_unitario=item.precio_unitario
                 )
-                item.producto.stock -= item.cantidad
-                item.producto.save()
             
             orden.factura = factura
             orden.save()
