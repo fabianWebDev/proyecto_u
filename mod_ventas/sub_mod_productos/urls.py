@@ -5,7 +5,12 @@ from .views import (
     ProductoCreateView,
     ProductoUpdateView,
     ProductoDeleteView,
-    ProductoReportView
+    ProductoReportView,
+    TipoProductoListView,
+    TipoProductoDetailView,
+    TipoProductoCreateView,
+    TipoProductoUpdateView,
+    TipoProductoDeleteView,
 )
 
 urlpatterns = [
@@ -14,5 +19,10 @@ urlpatterns = [
     path('<int:pk>/', ProductoDetailView.as_view(), name='producto_detalle'),
     path('editar/<int:pk>/', ProductoUpdateView.as_view(), name='producto_editar'),
     path('borrar/<int:pk>/', ProductoDeleteView.as_view(), name='producto_borrar'),
-     path('productos/report/', ProductoReportView.as_view(), name='producto_report'),
+    path('productos/report/', ProductoReportView.as_view(), name='producto_report'),
+    path('tipo-producto/', TipoProductoListView.as_view(), name='tipo_producto_list'),
+    path('tipo-producto/<int:pk>/', TipoProductoDetailView.as_view(), name='tipo_producto_detail'),
+    path('tipo-producto/crear/', TipoProductoCreateView.as_view(), name='tipo_producto_create'),
+    path('tipo-producto/<int:pk>/editar/', TipoProductoUpdateView.as_view(), name='tipo_producto_update'),
+    path('tipo-producto/<int:pk>/eliminar/', TipoProductoDeleteView.as_view(), name='tipo_producto_delete'),
 ]

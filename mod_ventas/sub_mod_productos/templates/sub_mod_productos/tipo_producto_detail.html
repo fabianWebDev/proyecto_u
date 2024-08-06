@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Detalle del Tipo de Producto
+{% endblock title %}
+
+{% block content %}
+    <h1>{{ tipo_producto.nombre }}</h1>
+    <p>{{ tipo_producto.descripcion }}</p>
+    <p>Activo: {{ tipo_producto.activo }}</p>
+    <a href="{% url 'tipo_producto_update' tipo_producto.id %}">Actualizar</a>
+    <a href="{% url 'tipo_producto_delete' tipo_producto.id %}">Eliminar</a>
+    <a href="{% url 'tipo_producto_list' %}">Volver al Listado</a>
+{% endblock content %}

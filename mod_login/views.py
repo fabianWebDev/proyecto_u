@@ -9,7 +9,7 @@ def user_login(request):
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            messages.error(request, "Has ingresado correctamente al sistema!")
+            messages.error(request, "Has ingresado exitosamente al sistema!")
             login(request, user)
             return redirect('home')
         else:

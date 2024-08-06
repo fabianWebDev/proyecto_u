@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Tipos de Productos
+{% endblock title %}
+
+{% block content %}
+    <h1>Listado de Tipos de Producto</h1>
+    <a href="{% url 'tipo_producto_create' %}">Crear Nuevo Tipo de Producto</a>
+    <ul>
+        {% for tipo_producto in tipos_productos %}
+            <li><a href="{% url 'tipo_producto_detail' tipo_producto.id %}">{{ tipo_producto.nombre }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
