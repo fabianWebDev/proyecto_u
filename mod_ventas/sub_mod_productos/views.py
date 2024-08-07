@@ -26,6 +26,12 @@ class ProductoDetailView(DetailView):
         except Producto.DoesNotExist:
             raise Http404("Producto not found")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add any additional context data here
+        context['related_items'] = Producto.objects.filter(category=self.object.category)  # Example
+        return context
+
 class ProductoCreateView(CreateView):
     model = Producto
     form_class = ProductoForm

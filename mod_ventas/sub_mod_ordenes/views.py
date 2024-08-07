@@ -66,23 +66,34 @@ class OrdenListView(LoginRequiredMixin, ListView):
 
 class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        orden_id = kwargs.get('pk')
+        orden_id = kwargs.get('orden_id')
+        if not orden_id:
+            messages.error(request, "Orden ID no proporcionado.")
+            return redirect('lista_ordenes')
+
         try:
             orden = Orden.objects.get(pk=orden_id, usuario=request.user)
         except Orden.DoesNotExist:
-            return redirect('detalle_orden', pk=orden_id)
+            messages.error(request, "La orden no existe.")
+            return redirect('lista_ordenes')
+
         return render(request, 'sub_mod_ordenes/completar_orden.html', {'orden': orden})
 
     def post(self, request, *args, **kwargs):
-        orden_id = kwargs.get('pk')
+        orden_id = kwargs.get('orden_id')
+        if not orden_id:
+            messages.error(request, "Orden ID no proporcionado.")
+            return redirect('lista_ordenes')
+
         try:
             orden = Orden.objects.get(pk=orden_id, usuario=request.user)
         except Orden.DoesNotExist:
-            return redirect('detalle_orden', pk=orden_id)
+            messages.error(request, "La orden no existe.")
+            return redirect('lista_ordenes')
 
         if not orden.items.exists():
             messages.error(request, "La orden no tiene productos. No se puede completar.")
-            return redirect('detalle_orden', pk=orden.id)
+            return redirect('detalle_orden', pk=orden_id)
 
         orden.completada = True
         orden.save()
@@ -105,10 +116,10 @@ class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
 
         if not orden.validar_tiempo_despacho():
             messages.warning(request, "El tiempo de despacho no es válido. Por favor, revisa los tiempos de entrega.")
-            return redirect('detalle_orden', pk=orden.id)
+            return redirect('detalle_orden', pk=orden_id)
 
         messages.success(request, "La orden ha sido completada y la factura generada correctamente.")
-        return redirect('detalle_orden', pk=orden.id)
+        return redirect('detalle_orden', pk=orden_id)
 
 class OrdenReportView(LoginRequiredMixin, TemplateView):
     template_name = 'sub_mod_ordenes/orden_report.html'
