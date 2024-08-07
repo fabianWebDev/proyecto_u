@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+from openpyxl import Workbook
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db.models import Sum
@@ -146,3 +148,46 @@ class TipoProductoDeleteView(DeleteView):
     def form_invalid(self, form):
         messages.error(self.request, 'Error al eliminar el tipo de producto, intentelo nuevamente.')
         return super().form_invalid(form)
+    
+class ProductoReportExportView(View):
+    def get(self, request):
+        # Create a workbook and select the active worksheet
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Reporte de Productos"
+
+        # Define the headers
+        headers = [
+            "Imagen", "ID Producto", "Categoría", "Nombre",
+            "Precio Venta", "Proveedor", "Stock", "Lote",
+            "Vencimiento", "Descripción"
+        ]
+        ws.append(headers)
+
+        # Fetch data from the database
+        productos = Producto.objects.all()
+
+        # Write data to the worksheet
+        for producto in productos:
+            row = [
+                producto.imagen.url if producto.imagen else '',
+                producto.id,
+                str(producto.tipo_producto),  # Convert to string
+                producto.nombre,
+                producto.precio_venta,
+                str(producto.proveedor),  # Convert to string
+                producto.stock,
+                producto.codigo_lote,
+                producto.fecha_vencimiento,
+                producto.descripcion,
+            ]
+            ws.append(row)
+
+        # Create an HttpResponse object with the appropriate Excel header
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=reporte_productos.xlsx'
+
+        # Save the workbook to the response
+        wb.save(response)
+
+        return response

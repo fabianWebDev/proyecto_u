@@ -8,4 +8,8 @@
 # TODO 1:
 # Desgargar en excel los reportes
 # Paginación de tablas
+# PDF generation
+# Date fields
+# Validations
+# DONE: 
 # Fix orders

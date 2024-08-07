@@ -96,7 +96,9 @@
     
     <script>
         $(document).ready(function() {
-            $('#productoTable').DataTable();
+            $('#productoTable').DataTable({
+               "dom": 't'
+            });
         });
     </script>
 {% endblock %}
