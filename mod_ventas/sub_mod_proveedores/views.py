@@ -7,23 +7,24 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.db.models import Sum
 from django.contrib import messages
 from openpyxl import Workbook
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Proveedor, PagoProveedor
 from .forms import ProveedorForm, PagoProveedorForm
 
 
-class ProveedorListView(ListView):
+class ProveedorListView(LoginRequiredMixin, ListView):
     model = Proveedor
     template_name = 'sub_mod_proveedores/proveedor_list.html'
     context_object_name = 'proveedores'
     paginate_by = 5
 
-class ProveedorDetailView(DetailView):
+class ProveedorDetailView(LoginRequiredMixin, DetailView):
     model = Proveedor
     template_name = 'sub_mod_proveedores/proveedor_detail.html'
     context_object_name = 'proveedor'
 
-class ProveedorCreateView(CreateView):
+class ProveedorCreateView(LoginRequiredMixin, CreateView):
     model = Proveedor
     form_class = ProveedorForm
     template_name = 'sub_mod_proveedores/proveedor_form.html'
@@ -37,7 +38,7 @@ class ProveedorCreateView(CreateView):
         messages.error(self.request, 'Error al crear el proveedor, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProveedorUpdateView(UpdateView):
+class ProveedorUpdateView(LoginRequiredMixin, UpdateView):
     model = Proveedor
     form_class = ProveedorForm
     template_name = 'sub_mod_proveedores/proveedor_form.html'
@@ -51,7 +52,7 @@ class ProveedorUpdateView(UpdateView):
         messages.error(self.request, 'Error al actualizar el proveedor, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProveedorDeleteView(DeleteView):
+class ProveedorDeleteView(LoginRequiredMixin, DeleteView):
     model = Proveedor
     template_name = 'sub_mod_proveedores/proveedor_confirm_delete.html'
     success_url = reverse_lazy('proveedor_list')
@@ -64,17 +65,17 @@ class ProveedorDeleteView(DeleteView):
         messages.error(self.request, 'Error al elimnar el proveedor, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class PagoProveedorListView(ListView):
+class PagoProveedorListView(LoginRequiredMixin, ListView):
     model = PagoProveedor
     template_name = 'sub_mod_proveedores/pago_list.html'
     context_object_name = 'pagos'
 
-class PagoProveedorDetailView(DetailView):
+class PagoProveedorDetailView(LoginRequiredMixin, DetailView):
     model = PagoProveedor
     template_name = 'sub_mod_proveedores/pago_detail.html'
     context_object_name = 'pago'
 
-class PagoProveedorCreateView(CreateView):
+class PagoProveedorCreateView(LoginRequiredMixin, CreateView):
     model = PagoProveedor
     form_class = PagoProveedorForm
     template_name = 'sub_mod_proveedores/pago_form.html'
@@ -92,7 +93,7 @@ class PagoProveedorCreateView(CreateView):
         messages.error(self.request, 'Error al registrar el pago, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProveedorReportView(View):
+class ProveedorReportView(LoginRequiredMixin, View):
     template_name = 'sub_mod_proveedores/proveedor_report.html'
     
     def get(self, request):
@@ -105,7 +106,7 @@ class ProveedorReportView(View):
         }
         return render(request, self.template_name, context)
     
-class ProveedorReportExportView(View):
+class ProveedorReportExportView(LoginRequiredMixin, View):
     def get(self, request):
         # Create a workbook and select the active worksheet
         wb = Workbook()

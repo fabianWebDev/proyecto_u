@@ -6,18 +6,19 @@ from django.db.models import Sum
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Producto, TipoProducto
 from .forms import ProductoForm, TipoProductoForm
 
-class ProductoListView(ListView):
+class ProductoListView(LoginRequiredMixin, ListView):
     model = Producto
     template_name = 'sub_mod_productos/producto_list.html'
     context_object_name = 'productos'
     paginate_by = 5
 
-class ProductoDetailView(DetailView):
+class ProductoDetailView(LoginRequiredMixin, DetailView):
     model = Producto
     template_name = 'sub_mod_productos/producto_detail.html'
     context_object_name = 'producto'
@@ -34,7 +35,7 @@ class ProductoDetailView(DetailView):
         context['related_items'] = Producto.objects.filter(category=self.object.category)  # Example
         return context
 
-class ProductoCreateView(CreateView):
+class ProductoCreateView(LoginRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'sub_mod_productos/producto_form.html'
@@ -48,7 +49,7 @@ class ProductoCreateView(CreateView):
         messages.error(self.request, 'Error al crear el producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProductoUpdateView(UpdateView):
+class ProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'sub_mod_productos/producto_form.html'
@@ -62,7 +63,7 @@ class ProductoUpdateView(UpdateView):
         messages.error(self.request, 'Error al actualizar el producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProductoDeleteView(DeleteView):
+class ProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = Producto
     template_name = 'sub_mod_productos/producto_confirm_delete.html'
     success_url = reverse_lazy('producto_list')
@@ -75,7 +76,7 @@ class ProductoDeleteView(DeleteView):
         messages.error(self.request, 'Error al elimnar el producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class ProductoReportView(View):
+class ProductoReportView(LoginRequiredMixin, View):
     template_name = 'sub_mod_productos/producto_report.html'
     
     def get(self, request):
@@ -92,7 +93,7 @@ class ProductoReportView(View):
         }
         return render(request, self.template_name, context)
 
-class TipoProductoListView(ListView):
+class TipoProductoListView(LoginRequiredMixin, ListView):
     model = TipoProducto
     template_name = 'sub_mod_productos/tipo_producto_list.html'
     context_object_name = 'tipos_productos'
@@ -108,7 +109,7 @@ class TipoProductoDetailView(DetailView):
         except TipoProducto.DoesNotExist:
             raise Http404("TipoProducto not found")
 
-class TipoProductoCreateView(CreateView):
+class TipoProductoCreateView(LoginRequiredMixin, CreateView):
     model = TipoProducto
     form_class = TipoProductoForm
     template_name = 'sub_mod_productos/tipo_producto_form.html'
@@ -122,7 +123,7 @@ class TipoProductoCreateView(CreateView):
         messages.error(self.request, 'Error al crear el tipo de producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class TipoProductoUpdateView(UpdateView):
+class TipoProductoUpdateView(LoginRequiredMixin, UpdateView):
     model = TipoProducto
     form_class = TipoProductoForm
     template_name = 'sub_mod_productos/tipo_producto_form.html'
@@ -136,7 +137,7 @@ class TipoProductoUpdateView(UpdateView):
         messages.error(self.request, 'Error al actualizar el tipo de producto, intentelo nuevamente.')
         return super().form_invalid(form)
 
-class TipoProductoDeleteView(DeleteView):
+class TipoProductoDeleteView(LoginRequiredMixin, DeleteView):
     model = TipoProducto
     template_name = 'sub_mod_productos/tipo_producto_confirm_delete.html'
     success_url = reverse_lazy('tipo_producto_list')
@@ -149,7 +150,7 @@ class TipoProductoDeleteView(DeleteView):
         messages.error(self.request, 'Error al eliminar el tipo de producto, intentelo nuevamente.')
         return super().form_invalid(form)
     
-class ProductoReportExportView(View):
+class ProductoReportExportView(LoginRequiredMixin, View):
     def get(self, request):
         # Create a workbook and select the active worksheet
         wb = Workbook()
