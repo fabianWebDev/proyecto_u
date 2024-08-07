@@ -17,7 +17,7 @@ class ProveedorListView(LoginRequiredMixin, ListView):
     model = Proveedor
     template_name = 'sub_mod_proveedores/proveedor_list.html'
     context_object_name = 'proveedores'
-    paginate_by = 5
+    paginate_by = 8
 
 class ProveedorDetailView(LoginRequiredMixin, DetailView):
     model = Proveedor
