@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% load static %} 
+{% load static %}
+
+{% block title %}
+  Ordenes
+{% endblock title %}
 
 {% block content %}
-
-  <h1 class="module-title">Órdenes</h1>
-    <div class="buttons-container col-12 mt-5">
+    <div class="buttons-container col-12 mt-2 mb-2">
       <a  class="btn d-inline"  href="{% url 'orden_report' %}">
         Generar Reporte
         <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">

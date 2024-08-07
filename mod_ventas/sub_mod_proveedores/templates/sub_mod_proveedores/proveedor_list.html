@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+  Proveedores
+{% endblock title %}
+
 {% block content %}
-  <section class="container">
-    <h1 class="text-center mt-4">Proveedores</h1>
-    <div class="buttons-container mt-5">
+    <div class="buttons-container mt-2 mb-2">
       <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
         Generar Reporte
         <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
@@ -65,5 +67,4 @@
       </table>
       </div>
     </section>
-  </section>   
 {% endblock %}

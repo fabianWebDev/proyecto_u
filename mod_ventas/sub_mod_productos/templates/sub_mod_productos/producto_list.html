@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}
+  Productos
+{% endblock title %}
+
 {% block content %}
-    <h1 class="module-title">Productos</h1>
-    <div class="buttons-container col-12 mt-5">
+    <div class="buttons-container col-12 mt-2 mb-2">
       <a class="btn d-inline" href="{% url 'producto_report' %}">
         Generar Reporte
         <img class="btn-icon" src="../static/icons/PDF.svg" alt="icono de pdf">
@@ -17,74 +20,76 @@
       </a>
     </div>
     <section class="bottom-section d-flex justify-content-center">
-      <div class="table-responsive">
-        <table id="productoTable" class="table table-striped">
-          <thead>
-            <tr class="table-header">
-              <th scope="col">Imagen</th>
-              <th scope="col">ID Producto</th>
-              <th scope="col">Categoría</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Precio Venta</th>
-              <th scope="col">Proveedor</th>
-              <th scope="col">Stock</th>
-              <th scope="col">Lote</th>
-              <th scope="col">Vencimiento</th>
-              <th scope="col">Descripción</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for producto in object_list %}
-            <tr>
-              <td>
-                <div class="img-table-container">
-                  {% if producto.imagen %}
-                      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
-                  {% else %}
-                      <p>No image available</p>
-                  {% endif %}
-                </div>
-              </td>
-              <td><p>{{ producto.id }}</p></td>
-              <td><p>{{ producto.tipo_producto }}</p></td>
-              <td><p>{{ producto.nombre }}</p></td>
-              <td><p>{{ producto.precio_venta }}</p></td>
-              <td><p>{{ producto.proveedor.nombre }}</p></td>
-              <td><p>{{ producto.stock }}</p></td>
-              <td><p>{{ producto.codigo_lote }}</p></td>
-              <td><p>{{ producto.fecha_vencimiento }}</p></td>
-              <td><p>{{ producto.descripcion }}</p></td>
-              <td>
-                <div class="action-icons-container">
-                  <a href="{% url 'producto_editar' producto.id %}">
-                    <img src="../static/icons/Edit.svg" alt="icono de editar">
-                  </a>
-                  <a href="{% url 'producto_borrar' producto.id %}">
-                    <img src="../static/icons/Delete.svg" alt="icono de editar">
-                  </a>   
-                 </div>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <div class="pagination">
-          <span class="step-links">
-              {% if page_obj.has_previous %}
-                  <a href="?page=1">&laquo; primera</a>
-                  <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
-              {% endif %}
+      <div class="col-12">
+        <div class="table-responsive">
+          <table id="productoTable" class="table table-striped">
+            <thead>
+              <tr class="table-header">
+                <th scope="col">Imagen</th>
+                <th scope="col">ID Producto</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio Venta</th>
+                <th scope="col">Proveedor</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Lote</th>
+                <th scope="col">Vencimiento</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for producto in object_list %}
+              <tr>
+                <td>
+                  <div class="img-table-container">
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                    {% else %}
+                        <p>No image available</p>
+                    {% endif %}
+                  </div>
+                </td>
+                <td><p>{{ producto.id }}</p></td>
+                <td><p>{{ producto.tipo_producto }}</p></td>
+                <td><p>{{ producto.nombre }}</p></td>
+                <td><p>{{ producto.precio_venta }}</p></td>
+                <td><p>{{ producto.proveedor.nombre }}</p></td>
+                <td><p>{{ producto.stock }}</p></td>
+                <td><p>{{ producto.codigo_lote }}</p></td>
+                <td><p>{{ producto.fecha_vencimiento }}</p></td>
+                <td><p>{{ producto.descripcion }}</p></td>
+                <td>
+                  <div class="action-icons-container">
+                    <a href="{% url 'producto_editar' producto.id %}">
+                      <img src="../static/icons/Edit.svg" alt="icono de editar">
+                    </a>
+                    <a href="{% url 'producto_borrar' producto.id %}">
+                      <img src="../static/icons/Delete.svg" alt="icono de editar">
+                    </a>   
+                   </div>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; primera</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                {% endif %}
 
-              <span class="current">
-                  Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-              </span>
+                <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
 
-              {% if page_obj.has_next %}
-                  <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
-                  <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
-              {% endif %}
-          </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                {% endif %}
+            </span>
+          </div>
         </div>
       </div>
     </section>
