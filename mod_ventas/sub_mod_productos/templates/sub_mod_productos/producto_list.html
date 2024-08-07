@@ -1,40 +1,41 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
   Productos
 {% endblock title %}
 
-{% block content %}
-    <div class="buttons-container col-12 mt-2 mb-2">
-      <a class="btn d-inline" href="{% url 'producto_report' %}">
-        Generar Reporte
-        <img class="btn-icon" src="../static/icons/PDF.svg" alt="icono de pdf">
-      </a>
-      <a class="btn d-inline" href="{% url 'producto_crear' %}">
-        Añadir Producto
-        <img class="btn-icon" src="../static/icons/Add.svg" alt="icono de pdf">
-      </a>
-      <a class="btn d-inline" href="{% url 'tipo_producto_list' %}">
-        Tipos de Producto
-        <img class="btn-icon" src="../static/icons/Add.svg" alt="icono de pdf">
-      </a>
-    </div>
-    <section class="bottom-section d-flex justify-content-center">
-      <div class="col-12">
+{% block content %}  
+    <section class="list-container">
+      <div class="buttons-container">
+        <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
+          Generar Reporte
+          <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
+        </a>
+        <a  class="btn d-inline" href="{% url 'proveedor_crear' %}">
+          Añadir Producto
+          <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de añadir">
+        </a>
+        <a  class="btn d-inline" href="{% url 'pago_nuevo' %}">
+          Tipos de producto
+          <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
+        </a>
+      </div>
+      <section class="bottom-section d-flex justify-content-center">
         <div class="table-responsive">
-          <table id="productoTable" class="table table-striped">
+          <table id="productoTable" class="table table-striped provider-table">
             <thead>
               <tr class="table-header">
                 <th scope="col">Imagen</th>
-                <th scope="col">ID Producto</th>
-                <th scope="col">Categoría</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Precio Venta</th>
-                <th scope="col">Proveedor</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Lote</th>
-                <th scope="col">Vencimiento</th>
-                <th scope="col">Descripción</th>
+                <th scope="col">Categoría<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Nombre<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Precio Venta<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Proveedor<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Stock<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Lote<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Stock<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Vencimiento<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Descripción<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -71,27 +72,35 @@
                 </td>
               </tr>
               {% endfor %}
-            </tbody>
+          </tbody>
           </table>
           <div class="pagination">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; primera</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
-                {% endif %}
-
-                <span class="current">
-                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                </span>
-
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
-                {% endif %}
-            </span>
-          </div>
+          <span class="step-links">
+            {% if page_obj.has_previous %}
+              <a class="first" href="?page=1">
+                <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
+              </a>
+              <a class="prev" href="?page={{ page_obj.previous_page_number }}">
+                  <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+                </a>
+            {% endif %}
+        
+          <span class="current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+          </span>
+             
+          {% if page_obj.has_next %}
+            <a class="prev" href="?page={{ page_obj.next_page_number }}">
+              <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
+            </a>
+            <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
+              <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
+            </a>
+          {% endif %}
+        </span>
         </div>
       </div>
+      </section>  
     </section>
 
     <!-- Include jQuery -->

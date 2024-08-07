@@ -148,12 +148,36 @@
     <main>
       <div class="wrapper container">
         {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-success" role="alert">
-              {{ message }}
+        {% for message in messages %}
+            {% if message.level == 40 %}  {# 40 es el nivel para mensajes de error #}
+            <div class="notification error">
+              <div class="container-1">
+                <img src="{% static 'icons/error.png' %}" alt="">
+              </div>
+              <div class="notification-text">
+                <div class="container-2">
+                  <p>Error</p>
+                  <p>{{ message }}</p>
+                </div>
+                <button class="close-btn">&times;</button>
+              </div>
             </div>
-          {% endfor %}
-        {% endif %}
+            {% else %}
+            <div class="notification success">
+              <div class="container-1">
+                <img src="{% static 'icons/success.png' %}" alt="">
+              </div>
+              <div class="notification-text">
+                <div class="container-2">
+                  <p>Éxito</p>
+                  <p>{{ message }}</p>
+                </div>
+                <button class="close-btn">&times;</button>
+              </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
         {% block content %}
         {% endblock  %}
       </div>
@@ -163,6 +187,7 @@
 
 </body>
 <script src="{% static 'scripts/menu-script.js' %}"></script>
+<script src="{% static 'scripts/notification-script.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
 </script>

@@ -11,7 +11,7 @@
       	<h1 class="login-title">Sistema de Administración</h1>
         <h2 class="login-subtitle">Registro</h2>
         </div>
-      	<form class="register-form d-flex gap-4 mt-3" action="" method="POST">
+      	<form class="register-form d-flex gap-4 mt-3" id="f-register" action="" method="POST">
         	{% csrf_token %}
 			<div class="form-inputs-container d-flex flex-column gap-4">
 				{% for field in form %}
@@ -30,7 +30,7 @@
 					<li>La contraseña y el nombre de usuario no pueden ser los mismos.</li>
 				</ul>
 			</div>
-			<button type="submit" class="btn mt-5 mx-auto">Submit</button>
-        </form>
+		</form>
+		<button type="submit" form="f-register" class="btn mt-5 mx-auto">Submit</button>
     </div>
 {% endblock content %}
