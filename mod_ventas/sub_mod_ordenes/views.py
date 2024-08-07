@@ -6,6 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Sum
+from django.http import HttpResponse
+from openpyxl import Workbook
+from .models import Orden
 
 from .models import Orden, OrdenItem
 from .forms import OrdenForm, OrdenItemForm
@@ -147,3 +150,47 @@ class SetTiempoDespachoView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return get_object_or_404(Orden, id=self.kwargs['orden_id'], usuario=self.request.user)
+
+class OrdenesReportExportView(View):
+    def get(self, request):
+        # Create a workbook and select the active worksheet
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Reporte de Órdenes"
+
+        # Define the headers
+        headers = [
+            "ID Orden", "Usuario", "Fecha Creación", "Completada", 
+            "Dirección Envío", "Nombre Cliente", "Teléfono Cliente",
+            "Factura", "Tiempo Despacho Esperado", "Tiempo Despacho Real", "Total"
+        ]
+        ws.append(headers)
+
+        # Fetch data from the database
+        ordenes = Orden.objects.all()
+
+        # Write data to the worksheet
+        for orden in ordenes:
+            row = [
+                orden.id,
+                orden.usuario.username if orden.usuario else '',
+                orden.fecha_creacion.replace(tzinfo=None) if orden.fecha_creacion else '',
+                orden.completada,
+                orden.direccion_envio,
+                orden.nombre_cliente,
+                orden.numero_telefono_cliente,
+                str(orden.factura) if orden.factura else '',
+                orden.tiempo_despacho_esperado.replace(tzinfo=None) if orden.tiempo_despacho_esperado else '',
+                orden.tiempo_despacho_real.replace(tzinfo=None) if orden.tiempo_despacho_real else '',
+                orden.get_total(),  # Call the method to get the actual value
+            ]
+            ws.append(row)
+
+        # Create an HttpResponse object with the appropriate Excel header
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=reporte_ordenes.xlsx'
+
+        # Save the workbook to the response
+        wb.save(response)
+
+        return response

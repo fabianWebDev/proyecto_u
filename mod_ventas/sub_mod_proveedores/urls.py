@@ -8,7 +8,8 @@ from .views import (
     PagoProveedorListView,
     PagoProveedorDetailView,
     PagoProveedorCreateView,
-    ProveedorReportView
+    ProveedorReportView,
+    ProveedorReportExportView
 )
 
 urlpatterns = [
@@ -20,5 +21,6 @@ urlpatterns = [
     path('pagos/', PagoProveedorListView.as_view(), name='pago_list'),
     path('pagos/nuevo/', PagoProveedorCreateView.as_view(), name='pago_nuevo'),
     path('pagos/<int:pk>/', PagoProveedorDetailView.as_view(), name='pago_detalle'),
-    path('reporte/', ProveedorReportView.as_view(), name='proveedor_reporte')
+    path('reporte/', ProveedorReportView.as_view(), name='proveedor_reporte'),
+    path('reporte/exportar/', ProveedorReportExportView.as_view(), name='proveedor_reporte_excel'),
 ]

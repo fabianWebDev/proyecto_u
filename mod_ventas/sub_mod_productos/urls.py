@@ -26,5 +26,5 @@ urlpatterns = [
     path('tipo-producto/crear/', TipoProductoCreateView.as_view(), name='tipo_producto_create'),
     path('tipo-producto/<int:pk>/editar/', TipoProductoUpdateView.as_view(), name='tipo_producto_update'),
     path('tipo-producto/<int:pk>/eliminar/', TipoProductoDeleteView.as_view(), name='tipo_producto_delete'),
-    path('report/export/', ProductoReportExportView.as_view(), name='producto_report_export'),
+    path('reporte/exportar/', ProductoReportExportView.as_view(), name='producto_report_export'),
 ]

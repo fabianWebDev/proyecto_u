@@ -1,21 +1,16 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.http import Http404
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Sum
 from django.contrib import messages
+from openpyxl import Workbook
 
 from .models import Proveedor, PagoProveedor
 from .forms import ProveedorForm, PagoProveedorForm
 
-# TODO: Add Breadcrumbs features
-#     crumbs = [
-#         {'name': 'Inicio', 'url': '/'},
-#         {'name': 'Ventas', 'url': '/ventas/'},
-#         {'name': 'Productos', 'url': '/productos/'},
-#         {'name': producto.nombre , 'url': reverse('producto_detalle', args=[producto.slug])},
-#     ]
 
 class ProveedorListView(ListView):
     model = Proveedor
@@ -108,3 +103,40 @@ class ProveedorReportView(View):
             'total_adeudado': total_adeudado,
         }
         return render(request, self.template_name, context)
+    
+class ProveedorReportExportView(View):
+    def get(self, request):
+        # Create a workbook and select the active worksheet
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Reporte de Proveedores"
+
+        # Define the headers
+        headers = [
+            "ID Proveedor", "Nombre", "Correo", "Número Telefónico",
+            "Tiempo Despacho"
+        ]
+        ws.append(headers)
+
+        # Fetch data from the database
+        proveedores = Proveedor.objects.all()
+
+        # Write data to the worksheet
+        for proveedor in proveedores:
+            row = [
+                proveedor.id,
+                proveedor.nombre,
+                proveedor.correo,
+                proveedor.numero_telefonico,
+                proveedor.tiempo_despacho_aprox,
+            ]
+            ws.append(row)
+
+        # Create an HttpResponse object with the appropriate Excel header
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename=reporte_proveedores.xlsx'
+
+        # Save the workbook to the response
+        wb.save(response)
+
+        return response

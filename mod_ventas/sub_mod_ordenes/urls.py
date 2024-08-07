@@ -6,7 +6,8 @@ from .views import (
     OrdenListView,
     ConfirmarCompletarOrdenView,
     OrdenReportView,
-    SetTiempoDespachoView
+    SetTiempoDespachoView,
+    OrdenesReportExportView
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path('<int:orden_id>/completar/', ConfirmarCompletarOrdenView.as_view(), name='completar_orden'),
     path('ordenes/report/', OrdenReportView.as_view(), name='orden_report'),
     path('<int:orden_id>/set_tiempo_despacho/', SetTiempoDespachoView.as_view(), name='set_tiempo_despacho'),
+    path('ordenes/reporte/', OrdenesReportExportView.as_view(), name='ordenes_reporte_excel'),
 ]

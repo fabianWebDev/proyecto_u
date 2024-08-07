@@ -1,4 +1,4 @@
-# TODO:
+# TODO(DONE):
 # Gestionar los pedidos de manera que desde que se soliciten se valide el tiempo que demora en despacharse.
 # Facturar la venta de los productos.
 # Montos facturados por tipo de producto.
@@ -6,10 +6,11 @@
 # Diferentes consultas y reportes.
 
 # TODO 1:
-# Desgargar en excel los reportes
 # Paginación de tablas
-# PDF generation
 # Date fields
 # Validations
+
 # DONE: 
 # Fix orders
+# Desgargar en excel los reportes
+# PDF generation (Not possible)
