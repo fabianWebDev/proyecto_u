@@ -6,7 +6,6 @@
 # Diferentes consultas y reportes.
 
 # TODO 1:
-# Paginación de tablas
 # Date fields
 # Validations
 
@@ -14,3 +13,4 @@
 # Fix orders
 # Desgargar en excel los reportes
 # PDF generation (Not possible)
+# Paginación de tablas

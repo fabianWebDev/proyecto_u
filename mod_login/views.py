@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm  # Asegúrate de importar el formulario correcto
 
 def user_login(request):
     if request.method == "POST":
@@ -9,7 +9,7 @@ def user_login(request):
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            messages.error(request, "Has ingresado exitosamente al sistema!")
+            messages.success(request, "¡Has ingresado exitosamente al sistema!")
             login(request, user)
             return redirect('home')
         else:
@@ -19,16 +19,16 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    messages.success(request, 'Logout exitoso!')
+    messages.success(request, '¡Logout exitoso!')
     return redirect('home')
 
 def register_user(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'El usuario fue creado exitosamente!')
+            messages.success(request, '¡El usuario fue creado exitosamente!')
             return redirect('home')
     else:
-        form = UserCreationForm()  # Initialize form if the request is not POST
+        form = CustomUserCreationForm()  # Inicializa el formulario si la solicitud no es POST
     return render(request, 'mod_login/register_user.html', {'form': form})

@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<!-- <h1 class="text-center my-5">Detalle de Orden</h1> -->
 	<div class="order-details mt-5">
-
 		<h2 class="order-details-title">Información</h2>
 		<div class="order-wrapper">
 			<div class="details">
@@ -15,10 +13,9 @@
 					<li>Estado de orden: <span>Completada</span></li>
 				{% else %}
 					<li>Estado de orden: <span>No completada</span></li>
-        {% endif %}
+        		{% endif %}
 				</ul>
 			</div>
-
 			<div class="shipment">
 				<h3>Envío</h3>
 				<ul class="order-details-list">
@@ -41,7 +38,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="order-items mt-3">
 		<h3 class="order-items-title">Productos</h3>
 		<div class="table-responsive">
@@ -54,45 +50,44 @@
 					</tr>
 				</thead>
 				<tbody>
-
-			{% if orden.items.all %}
-				{% for item in orden.items.all %}
-					<tr>
+				{% if orden.items.all %}
+					{% for item in orden.items.all %}
+						<tr>
+							<td>
+								<p>{{ item.producto.nombre }}</p>
+							</td>
+							<td>
+								<p>{{ item.cantidad }}</p>
+							</td>
+							<td>
+								<p>-</p>
+							</td>
+					{% endfor %}
+				{% else %}
 						<td>
 							<p>{{ item.producto.nombre }}</p>
 						</td>
 						<td>
 							<p>{{ item.cantidad }}</p>
 						</td>
+					{% if not orden.completada %}
+						<td>
+							<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
+						</td>
+					{% endif %}
+				{% endif %}
+					</tr>
+					<tr>
 						<td>
 							<p>-</p>
 						</td>
-				{% endfor %}
-			{% else %}
-					<td>
-						<p>{{ item.producto.nombre }}</p>
-					</td>
-					<td>
-						<p>{{ item.cantidad }}</p>
-					</td>
-				{% if not orden.completada %}
-					<td>
-						<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
-					</td>
-				{% endif %}
-			{% endif %}
-				</tr>
-				<tr>
-					<td>
-						<p>-</p>
-					</td>
-					<td>
-						<p>-</p>
-					</td>
-					{% if not orden.completada %}
-					<td>
-						<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
-					</td>
+						<td>
+							<p>-</p>
+						</td>
+						{% if not orden.completada %}
+						<td>
+							<p><a href="{% url 'agregar_item_orden' orden.id %}">Agregar Item</a></p>
+						</td>
 				{% endif %}
 				</tr>
 			</tbody>
@@ -104,7 +99,7 @@
 		<a class="btn d-inline" href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
 	{% endif %}
 	{% if not orden.tiempo_despacho_real %}
-		<a class="btn d-inline" href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho real</a>
+		<a class="btn d-inline" href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho final</a>
 	{% endif %}
 </div>
 {% endblock %}

@@ -22,7 +22,17 @@ class OrdenCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.usuario = self.request.user
-        return super().form_valid(form)
+        try:
+            messages.success(self.request, "La orden fue creada exitosamente!")
+            return super().form_valid(form)
+        except ValidationError as e:
+            for field, errors in e.message_dict.items():
+                for error in errors:
+                    messages.error(self.request, f"{field}: {error}")
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 class OrdenDetailView(LoginRequiredMixin, DetailView):
     model = Orden
@@ -63,6 +73,7 @@ class OrdenListView(LoginRequiredMixin, ListView):
     model = Orden
     template_name = 'sub_mod_ordenes/ordenes_list.html'
     context_object_name = 'ordenes'
+    paginate_by = 5
 
     def get_queryset(self):
         return Orden.objects.filter(usuario=self.request.user)

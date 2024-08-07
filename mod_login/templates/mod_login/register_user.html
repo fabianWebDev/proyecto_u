@@ -13,24 +13,24 @@
         </div>
       	<form class="register-form d-flex gap-4 mt-3" action="" method="POST">
         	{% csrf_token %}
-					<div class="form-inputs-container d-flex flex-column gap-4">
-						{% for field in form %}
-						<div class="form-group">
-							{{ field.label_tag }}
-							{{ field }}
-						</div>
-						{% endfor %}
-					</div>
-          
+			<div class="form-inputs-container d-flex flex-column gap-4">
+				{% for field in form %}
+				<div class="form-group">
+					{{ field.label_tag }}
+					{{ field }}
+				</div>
+				{% endfor %}
+			</div>
+	
 
-					<div class="register-constraints">
-						<ul class="d-flex flex-column gap-4">
-							<li>El usuario debe tener menos de 150 caracteres.</li>
-							<li>La contraseña debe contener al menos 8 caracteres.</li>
-							<li>La contraseña y el nombre de usuario no pueden ser los mismos.</li>
-						</ul>
-					</div>
+			<div class="register-constraints">
+				<ul class="d-flex flex-column gap-4">
+					<li>El usuario debe tener menos de 150 caracteres.</li>
+					<li>La contraseña debe contener al menos 8 caracteres.</li>
+					<li>La contraseña y el nombre de usuario no pueden ser los mismos.</li>
+				</ul>
+			</div>
+			<button type="submit" class="btn mt-5 mx-auto">Submit</button>
         </form>
-        <button type="submit" class="btn mt-5 mx-auto">Submit</button>
     </div>
 {% endblock content %}

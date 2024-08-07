@@ -16,6 +16,7 @@ class ProveedorListView(ListView):
     model = Proveedor
     template_name = 'sub_mod_proveedores/proveedor_list.html'
     context_object_name = 'proveedores'
+    paginate_by = 5
 
 class ProveedorDetailView(DetailView):
     model = Proveedor

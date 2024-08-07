@@ -145,3 +145,7 @@ LOGIN_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect 
 LOGOUT_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after logout
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LANGUAGE_CODE = 'es'
+USE_I18N = True
+USE_L10N = True

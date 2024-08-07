@@ -18,7 +18,7 @@
     </div>
     <section class="bottom-section d-flex justify-content-center">
       <div class="table-responsive">
-        <table class="table table-striped order-table">
+        <table id="ordenesTable" class="table table-striped order-table">
           <thead>
             <tr class="table-header">
               <th scope="col">Orden ID</th>
@@ -55,6 +55,35 @@
       {% endfor %}
         </tbody>
       </table>
+      <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; primera</a>
+                <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+            {% endif %}
+        </span>
+      </div>
       </div>
     </section>
+    <!-- Include jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#ordenesTable').DataTable({
+              "dom": 't'
+            });
+        });
+    </script>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=150)
@@ -17,6 +18,11 @@ class Proveedor(models.Model):
     def __str__(self):
         return self.nombre
     
+    def clean(self):
+        super().clean()
+        if self.saldo_adeudado < 0:
+            raise ValidationError({'saldo_adeudado': 'El saldo adeudado no puede ser menor a 0.'})
+    
 class PagoProveedor(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name='pagos')
     fecha_pago = models.DateField(auto_now_add=True)
@@ -25,3 +31,11 @@ class PagoProveedor(models.Model):
 
     def __str__(self):
         return f"Pago de {self.cantidad} a {self.proveedor.nombre} en {self.fecha_pago}"
+    
+    def clean(self):
+        super().clean()
+        if self.saldo_adeudado < 0:
+            raise ValidationError({'saldo_adeudado': 'El saldo adeudado no puede ser menor a 0.'})
+        if self.cantidad < 0:
+            raise ValidationError({'cantidad': 'La cantidad del pago no puede ser menor a 0.'})
+        

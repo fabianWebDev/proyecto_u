@@ -38,18 +38,18 @@ class OrdenItem(models.Model):
         return self.cantidad * self.precio_unitario
 
     def save(self, *args, **kwargs):
-            if self.producto:
-                if self.producto.stock < self.cantidad:
-                    raise ValidationError(f"No hay suficiente stock del producto: {self.producto.nombre}. Disponible: {self.producto.stock}, Solicitado: {self.cantidad}")
-                
-                self.precio_unitario = self.producto.precio_venta
-                
-                # Start a transaction to ensure atomicity
-                with transaction.atomic():
-                    self.producto.stock -= self.cantidad
-                    self.producto.save()  # Save the product with updated stock
-                
-            super().save(*args, **kwargs)
+        if self.producto:
+            if self.producto.stock < self.cantidad:
+                raise ValidationError(f"No hay suficiente stock del producto: {self.producto.nombre}. Disponible: {self.producto.stock}, Solicitado: {self.cantidad}")
+            
+            self.precio_unitario = self.producto.precio_venta
+            
+            # Start a transaction to ensure atomicity
+            with transaction.atomic():
+                self.producto.stock -= self.cantidad
+                self.producto.save()  # Save the product with updated stock
+            
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.producto} - {self.cantidad} units"
