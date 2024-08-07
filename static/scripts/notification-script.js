@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
   notifcations.forEach((el) => {
       el.classList.add('show');
 
-      // setTimeout(() => {
-      //     el.classList.remove('show');
-      // }, 5000);
+      setTimeout(() => {
+          el.classList.remove('show');
+      }, 5000);
   });
 
   closeButtons.forEach((el) => {
