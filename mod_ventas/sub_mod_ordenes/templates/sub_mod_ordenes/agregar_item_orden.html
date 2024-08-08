@@ -5,12 +5,22 @@
 {% endblock title %}
 
 {% block content %}
-  <h2>Agregar Item a la Orden</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Agregar Item</button>
-  </form>
+  <section class="form-container">
+    <h1 class="form-header">Agregar Item a la Orden</h1>
+    <form method="post" enctype="multipart/form-data" id="f-addItem" class="product-form">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+      </div>
+    {% endfor %}
+    </form>
+    <div class="d-flex justify-content-center gap-3 mt-5">
+      <button form="f-addItem" class="btn" type="submit">Agregar Item</button>
+      <a class="btn d-inline" href="{% url 'proveedor_list' %}">Cancelar</a>
+    </div>
+  </section>
 {% endblock content %}
 
 

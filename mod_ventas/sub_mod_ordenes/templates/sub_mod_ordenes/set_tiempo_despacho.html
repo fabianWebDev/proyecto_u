@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Set Dispatch Time for Order {{ orden.id }}</h2>
-  <form method="post">
-    {% csrf_token %}
-    <label for="tiempo_despacho_real">Tiempo de despacho real:</label>
-    <input type="datetime-local" id="tiempo_despacho_real" name="tiempo_despacho_real">
-    <button type="submit">Confirmar</button>
-  </form>
+  <section class="form-container">
+    <h1 class="form-header">Ingresar tiempo de despacho final de la orden #{{ orden.id }}</h1>
+    <form method="post" enctype="multipart/form-data" id="f-addTime" class="product-form">
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+      </div>
+    {% endfor %}
+    </form>
+    <div class="d-flex justify-content-center gap-3 mt-5">
+      <button form="f-addTime" class="btn" type="submit">Confirmar</button>
+    </div>
+  </section>
 {% endblock %}
