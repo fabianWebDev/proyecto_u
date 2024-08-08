@@ -12,11 +12,11 @@
           Generar Reporte
           <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
         </a>
-        <a  class="btn d-inline" href="{% url 'proveedor_crear' %}">
+        <a  class="btn d-inline" href="{% url 'producto_crear' %}">
           Añadir Producto
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de añadir">
         </a>
-        <a  class="btn d-inline" href="{% url 'pago_nuevo' %}">
+        <a  class="btn d-inline" href="{% url 'tipo_producto_list' %}">
           Tipos de producto
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
         </a>
@@ -75,29 +75,29 @@
           </tbody>
           </table>
           <div class="pagination">
-          <span class="step-links">
-            {% if page_obj.has_previous %}
-              <a class="first" href="?page=1">
-                <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
-              </a>
-              <a class="prev" href="?page={{ page_obj.previous_page_number }}">
-                  <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+            <span class="step-links">
+              {% if page_obj.has_previous %}
+                <a class="first" href="?page=1">
+                  <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
                 </a>
+                <a class="prev" href="?page={{ page_obj.previous_page_number }}">
+                    <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+                  </a>
+              {% endif %}
+          
+            <span class="current">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+              
+            {% if page_obj.has_next %}
+              <a class="prev" href="?page={{ page_obj.next_page_number }}">
+                <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
+              </a>
+              <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
+                <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
+              </a>
             {% endif %}
-        
-          <span class="current">
-            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
           </span>
-             
-          {% if page_obj.has_next %}
-            <a class="prev" href="?page={{ page_obj.next_page_number }}">
-              <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
-            </a>
-            <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
-              <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
-            </a>
-          {% endif %}
-        </span>
         </div>
       </div>
       </section>  

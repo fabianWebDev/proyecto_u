@@ -21,7 +21,7 @@
 				<ul class="order-details-list">
 					<li>Dirección: <span>{{ orden.direccion_envio }}</span></li>
 					<li>Tiempo despacho esperado: <span>{{ orden.tiempo_despacho_esperado }}</span></l>
-				{% if objeto.tiempo_despacho_real %}
+				{% if orden.tiempo_despacho_real %}
 					<li>Tiempo despacho final: <span>{{ orden.tiempo_despacho_real }}</span></li>
 					{% else %}
 					<li>Tiempo despacho final: <span>Pendiente</span></li>

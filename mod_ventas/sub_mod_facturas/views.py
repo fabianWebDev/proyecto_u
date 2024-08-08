@@ -1,30 +1,46 @@
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Sum, F
-from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Factura, FacturaDetalle
+from django.db.models import Sum, F
 
-@login_required
-def facturas(request):
-    facturas = Factura.objects.all()
-    return render(request, 'sub_mod_facturas/facturas.html', {
-        'facturas': facturas,
-    })
+class FacturaListView(LoginRequiredMixin, ListView):
+    model = Factura
+    template_name = 'sub_mod_facturas/facturas_list.html'
+    context_object_name = 'facturas'
+    paginate_by = 6
 
-@login_required
-def factura_detalle(request, pk):
-    factura = get_object_or_404(Factura, pk=pk)
-    detalles = FacturaDetalle.objects.filter(factura=factura)
-    return render(request, 'sub_mod_facturas/factura_detalle.html', {
-        'factura': factura,
-        'detalles': detalles,
-    })
+    def get_queryset(self):
+        try:
+            return Factura.objects.all()
+        except Factura.DoesNotExist:
+            raise Http404("No Facturas found.")
 
-@login_required  
-def monto_facturado_por_producto(request):
-    productos = FacturaDetalle.objects.values('producto').annotate(
-        monto_total=Sum(F('cantidad') * F('precio_unitario'))
-    ).order_by('producto')
+class FacturaDetailView(LoginRequiredMixin, DetailView):
+    model = Factura
+    template_name = 'sub_mod_facturas/factura_detalle.html'
+    context_object_name = 'factura'
 
-    return render(request, 'sub_mod_facturas/monto_facturado_por_producto.html', {
-        'productos': productos,
-    })
+    def get_object(self, queryset=None):
+        try:
+            return super().get_object(queryset)
+        except Factura.DoesNotExist:
+            raise Http404("Factura not found")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['detalles'] = FacturaDetalle.objects.filter(factura=self.object)
+        return context
+
+class MontoFacturadoPorProductoView(LoginRequiredMixin, ListView):
+    template_name = 'sub_mod_facturas/monto_facturado_por_producto.html'
+    context_object_name = 'productos'
+    paginate_by = 10
+
+    def get_queryset(self):
+        try:
+            return FacturaDetalle.objects.values('producto').annotate(
+                monto_total=Sum(F('cantidad') * F('precio_unitario')
+            )).order_by('producto')
+        except FacturaDetalle.DoesNotExist:
+            raise Http404("No FacturaDetalle found.")

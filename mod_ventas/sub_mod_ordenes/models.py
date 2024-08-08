@@ -5,6 +5,7 @@ from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
 from mod_ventas.sub_mod_productos.models import Producto
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from datetime import date
 
 class Orden(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -27,6 +28,11 @@ class Orden(models.Model):
         if self.tiempo_despacho_real and self.tiempo_despacho_real > self.tiempo_despacho_esperado:
             return False
         return True
+
+    def clean(self):
+        super().clean()
+        if self.tiempo_despacho_esperado < timezone.now():
+            raise ValidationError({'tiempo_despacho_esperado': 'El tiempo de despacho esperado no puede ser menor a la fecha y hora actual.'})
 
 class OrdenItem(models.Model):
     orden = models.ForeignKey(Orden, related_name='items', on_delete=models.CASCADE)

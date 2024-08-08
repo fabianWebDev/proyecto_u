@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Facturas
+{% endblock title %}
+
+{% block content %}
+    <section class="list-container">
+        <div class="buttons-container">
+          <a class="btn d-inline" href="{% url 'monto_facturado_por_producto' %}">
+            Montos facturados por productos
+            <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
+          </a>
+        </div>
+        <section class="bottom-section d-flex justify-content-center">
+          <div class="table-responsive order-table">
+            <table id="ordenesTable" class="table table-striped provider-table">
+              <thead>
+                <tr class="table-header">
+                  <th scope="col">Factura<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                  <th scope="col">Fecha Emisión<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                  <th scope="col">Total<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for factura in facturas %}
+                <tr>
+                  <td>
+                    <p>Factura # <a href="{% url 'factura_detalle' factura.id %}">{{ factura.numero_factura }}</a></p>
+                  </td>
+                  <td>
+                    <p>{{ factura.fecha_emision }}</p>
+                  </td>
+                  <td>
+                    <p>{{ factura.total }}</p>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="3">No hay facturas disponibles.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="pagination">
+              <span class="step-links">
+                {% if page_obj.has_previous %}
+                  <a class="first" href="?page=1">
+                    <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
+                  </a>
+                  <a class="prev" href="?page={{ page_obj.previous_page_number }}">
+                      <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+                    </a>
+                {% endif %}
+            
+              <span class="current">
+                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+              </span>
+                
+              {% if page_obj.has_next %}
+                <a class="prev" href="?page={{ page_obj.next_page_number }}">
+                  <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
+                </a>
+                <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
+                  <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
+                </a>
+              {% endif %}
+            </span>
+          </div>
+          </div>
+        </section>  
+    </section>
+
+    <!-- Include jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('#ordenesTable').DataTable({
+              "dom": 't'
+            });
+        });
+    </script>
+{% endblock content %}

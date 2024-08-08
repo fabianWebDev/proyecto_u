@@ -22,6 +22,10 @@ class Proveedor(models.Model):
         super().clean()
         if self.saldo_adeudado < 0:
             raise ValidationError({'saldo_adeudado': 'El saldo adeudado no puede ser menor a 0.'})
+        if self.numero_telefonico < 0:
+            raise ValidationError({'numero_telefonico': 'El número telefónico no puede ser menor a 0.'})
+        if self.tiempo_despacho_aprox < 0:
+            raise ValidationError({'tiempo_despacho_aprox': 'El tiempo de despacho apróximado no puede ser menor a 0.'})
     
 class PagoProveedor(models.Model):
     proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name='pagos')
@@ -34,8 +38,6 @@ class PagoProveedor(models.Model):
     
     def clean(self):
         super().clean()
-        if self.saldo_adeudado < 0:
-            raise ValidationError({'saldo_adeudado': 'El saldo adeudado no puede ser menor a 0.'})
         if self.cantidad < 0:
             raise ValidationError({'cantidad': 'La cantidad del pago no puede ser menor a 0.'})
         

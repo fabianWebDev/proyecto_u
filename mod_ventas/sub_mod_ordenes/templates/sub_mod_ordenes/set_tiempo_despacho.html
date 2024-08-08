@@ -4,8 +4,8 @@
   <h2>Set Dispatch Time for Order {{ orden.id }}</h2>
   <form method="post">
     {% csrf_token %}
-    <label for="tiempo_despacho_real">Dispatch Time:</label>
+    <label for="tiempo_despacho_real">Tiempo de despacho real:</label>
     <input type="datetime-local" id="tiempo_despacho_real" name="tiempo_despacho_real">
-    <button type="submit">Set Dispatch Time</button>
+    <button type="submit">Confirmar</button>
   </form>
 {% endblock %}

@@ -8,11 +8,10 @@ from django.core.exceptions import ValidationError
 from django.db.models import Sum
 from django.http import HttpResponse
 from openpyxl import Workbook
-from .models import Orden
-
 from .models import Orden, OrdenItem
 from .forms import OrdenForm, OrdenItemForm
 from mod_ventas.sub_mod_facturas.models import Factura, FacturaDetalle
+
 
 class OrdenCreateView(LoginRequiredMixin, CreateView):
     model = Orden
@@ -34,6 +33,7 @@ class OrdenCreateView(LoginRequiredMixin, CreateView):
     def form_invalid(self, form):
         return super().form_invalid(form)
 
+
 class OrdenDetailView(LoginRequiredMixin, DetailView):
     model = Orden
     template_name = 'sub_mod_ordenes/detalle_orden.html'
@@ -41,6 +41,7 @@ class OrdenDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         return Orden.objects.filter(usuario=self.request.user)
+
 
 class AgregarItemOrdenView(LoginRequiredMixin, FormView):
     form_class = OrdenItemForm
@@ -69,6 +70,7 @@ class AgregarItemOrdenView(LoginRequiredMixin, FormView):
         context['orden'] = get_object_or_404(Orden, id=self.kwargs['orden_id'], usuario=self.request.user)
         return context
 
+
 class OrdenListView(LoginRequiredMixin, ListView):
     model = Orden
     template_name = 'sub_mod_ordenes/ordenes_list.html'
@@ -78,6 +80,7 @@ class OrdenListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Orden.objects.filter(usuario=self.request.user)
 
+
 class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         orden_id = kwargs.get('orden_id')
@@ -85,12 +88,7 @@ class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
             messages.error(request, "Orden ID no proporcionado.")
             return redirect('lista_ordenes')
 
-        try:
-            orden = Orden.objects.get(pk=orden_id, usuario=request.user)
-        except Orden.DoesNotExist:
-            messages.error(request, "La orden no existe.")
-            return redirect('lista_ordenes')
-
+        orden = get_object_or_404(Orden, pk=orden_id, usuario=request.user)
         return render(request, 'sub_mod_ordenes/completar_orden.html', {'orden': orden})
 
     def post(self, request, *args, **kwargs):
@@ -99,14 +97,17 @@ class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
             messages.error(request, "Orden ID no proporcionado.")
             return redirect('lista_ordenes')
 
-        try:
-            orden = Orden.objects.get(pk=orden_id, usuario=request.user)
-        except Orden.DoesNotExist:
-            messages.error(request, "La orden no existe.")
-            return redirect('lista_ordenes')
+        orden = get_object_or_404(Orden, pk=orden_id, usuario=request.user)
 
         if not orden.items.exists():
             messages.error(request, "La orden no tiene productos. No se puede completar.")
+            return redirect('detalle_orden', pk=orden_id)
+
+        try:
+            orden.clean()
+        except ValidationError as e:
+            for field, error in e.message_dict.items():
+                messages.error(request, f"{field}: {error[0]}")
             return redirect('detalle_orden', pk=orden_id)
 
         orden.completada = True
@@ -128,12 +129,9 @@ class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):
         orden.factura = factura
         orden.save()
 
-        if not orden.validar_tiempo_despacho():
-            messages.warning(request, "El tiempo de despacho no es válido. Por favor, revisa los tiempos de entrega.")
-            return redirect('detalle_orden', pk=orden_id)
-
         messages.success(request, "La orden ha sido completada y la factura generada correctamente.")
         return redirect('detalle_orden', pk=orden_id)
+
 
 class OrdenReportView(LoginRequiredMixin, TemplateView):
     template_name = 'sub_mod_ordenes/orden_report.html'
@@ -153,34 +151,41 @@ class OrdenReportView(LoginRequiredMixin, TemplateView):
         })
         return context
 
+
 class SetTiempoDespachoView(LoginRequiredMixin, UpdateView):
     model = Orden
     fields = ['tiempo_despacho_real']
     template_name = 'sub_mod_ordenes/set_tiempo_despacho.html'
-    success_url = reverse_lazy('detalle_orden')
 
     def get_object(self):
         return get_object_or_404(Orden, id=self.kwargs['orden_id'], usuario=self.request.user)
 
+    def form_valid(self, form):
+        # Actualiza el campo tiempo_despacho_real
+        self.object = form.save(commit=False)
+        self.object.tiempo_despacho_real = form.cleaned_data['tiempo_despacho_real']
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('detalle_orden', kwargs={'pk': self.object.pk})
+
+
 class OrdenesReportExportView(View):
     def get(self, request):
-        # Create a workbook and select the active worksheet
         wb = Workbook()
         ws = wb.active
         ws.title = "Reporte de Órdenes"
 
-        # Define the headers
         headers = [
-            "ID Orden", "Usuario", "Fecha Creación", "Completada", 
+            "ID Orden", "Usuario", "Fecha Creación", "Completada",
             "Dirección Envío", "Nombre Cliente", "Teléfono Cliente",
             "Factura", "Tiempo Despacho Esperado", "Tiempo Despacho Real", "Total"
         ]
         ws.append(headers)
 
-        # Fetch data from the database
         ordenes = Orden.objects.all()
 
-        # Write data to the worksheet
         for orden in ordenes:
             row = [
                 orden.id,
@@ -193,15 +198,12 @@ class OrdenesReportExportView(View):
                 str(orden.factura) if orden.factura else '',
                 orden.tiempo_despacho_esperado.replace(tzinfo=None) if orden.tiempo_despacho_esperado else '',
                 orden.tiempo_despacho_real.replace(tzinfo=None) if orden.tiempo_despacho_real else '',
-                orden.get_total(),  # Call the method to get the actual value
+                orden.get_total(),
             ]
             ws.append(row)
 
-        # Create an HttpResponse object with the appropriate Excel header
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=reporte_ordenes.xlsx'
-
-        # Save the workbook to the response
         wb.save(response)
 
         return response
