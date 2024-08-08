@@ -17,21 +17,22 @@ class OrdenCreateView(LoginRequiredMixin, CreateView):
     model = Orden
     form_class = OrdenForm
     template_name = 'sub_mod_ordenes/crear_orden.html'
-    success_url = reverse_lazy('lista_ordenes')
 
     def form_valid(self, form):
         form.instance.usuario = self.request.user
-        try:
-            messages.success(self.request, "La orden fue creada exitosamente!")
-            return super().form_valid(form)
-        except ValidationError as e:
-            for field, errors in e.message_dict.items():
-                for error in errors:
-                    messages.error(self.request, f"{field}: {error}")
-            return self.form_invalid(form)
+        response = super().form_valid(form)
+        messages.success(self.request, "La orden fue creada exitosamente!")
+        return response
 
     def form_invalid(self, form):
-        return super().form_invalid(form)
+        response = super().form_invalid(form)
+        for field, errors in form.errors.items():
+            for error in errors:
+                messages.error(self.request, f"{field}: {error}")
+        return response
+
+    def get_success_url(self):
+        return reverse_lazy('detalle_orden', kwargs={'pk': self.object.pk})
 
 
 class OrdenDetailView(LoginRequiredMixin, DetailView):
@@ -78,7 +79,7 @@ class OrdenListView(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Orden.objects.filter(usuario=self.request.user)
+        return Orden.objects.filter(usuario=self.request.user).order_by('-fecha_creacion')
 
 
 class ConfirmarCompletarOrdenView(LoginRequiredMixin, View):

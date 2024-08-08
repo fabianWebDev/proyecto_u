@@ -55,7 +55,7 @@
                 {% endif %}
             
               <span class="current">
-                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                Página {{ page_obj.number }} de {{ page_obj.paginator_class.num_pages }}.
               </span>
                 
               {% if page_obj.has_next %}

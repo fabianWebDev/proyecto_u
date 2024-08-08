@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,6 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'proyecto_u.wsgi.application'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Database

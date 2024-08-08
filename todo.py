@@ -6,12 +6,12 @@
 # Diferentes consultas y reportes.
 
 # TODO 1:
-# Date fields
-# Validations
 # 404
-
 # DONE: 
 # Fix orders
 # Desgargar en excel los reportes
 # PDF generation (Not possible)
 # Paginación de tablas
+# Date fields
+# Validations
+# Validacion Fecha

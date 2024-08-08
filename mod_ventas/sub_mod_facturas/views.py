@@ -11,10 +11,10 @@ class FacturaListView(LoginRequiredMixin, ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        try:
-            return Factura.objects.all()
-        except Factura.DoesNotExist:
-            raise Http404("No Facturas found.")
+        return Factura.objects.all()
+
+    def handle_no_query_results(self):
+        raise Http404("No Facturas found.")
 
 class FacturaDetailView(LoginRequiredMixin, DetailView):
     model = Factura
@@ -25,7 +25,7 @@ class FacturaDetailView(LoginRequiredMixin, DetailView):
         try:
             return super().get_object(queryset)
         except Factura.DoesNotExist:
-            raise Http404("Factura not found")
+            raise Http404("Factura not found.")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -38,9 +38,9 @@ class MontoFacturadoPorProductoView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        try:
-            return FacturaDetalle.objects.values('producto').annotate(
-                monto_total=Sum(F('cantidad') * F('precio_unitario')
-            )).order_by('producto')
-        except FacturaDetalle.DoesNotExist:
-            raise Http404("No FacturaDetalle found.")
+        return FacturaDetalle.objects.values('producto').annotate(
+            monto_total=Sum(F('cantidad') * F('precio_unitario'))
+        ).order_by('producto')
+
+    def handle_no_query_results(self):
+        raise Http404("No FacturaDetalle found.")
