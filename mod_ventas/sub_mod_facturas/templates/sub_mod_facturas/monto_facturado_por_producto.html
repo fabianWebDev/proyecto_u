@@ -1,21 +1,80 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
-  <h1>Monto Facturado por Producto</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Monto Total Facturado</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for producto in productos %}
-        <tr>
-          <td>{{ producto.producto }}</td>
-          <td>{{ producto.monto_total }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <section class="list-container">
+    <section class="bottom-section d-flex justify-content-center">
+      <div class="table-responsive">
+        <table id="productoTable" class="table table-striped provider-table">
+          <thead>
+            <tr class="table-header">
+              <th scope="col">Imagen</th>
+              <th scope="col">ID Producto<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+              <th scope="col">Nombre<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+              <th scope="col">Tipo Producto<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+              <th scope="col">Monto Total Facturado<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for producto in productos %}
+            <tr>
+              <td>
+                <div class="img-table-container">
+                  {% if producto.imagen %}
+                      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                  {% else %}
+                      <p>No image available</p>
+                  {% endif %}
+                </div>
+              </td>
+              <td><p>{{ producto.producto }}</p></td>
+              <td><p>{{ producto.nombre }}</p></td>
+              <td><p>{{ producto.tipo_producto }}</p></td>
+              <td><p>{{ producto.monto_total }}</p></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>   
+    </div>
+    </section>
+    <div class="pagination">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a class="first" href="?page=1">
+            <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
+          </a>
+          <a class="prev" href="?page={{ page_obj.previous_page_number }}">
+              <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+            </a>
+        {% endif %}
+    
+      <span class="current">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+      </span>
+        
+      {% if page_obj.has_next %}
+        <a class="prev" href="?page={{ page_obj.next_page_number }}">
+          <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
+        </a>
+        <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
+          <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
+        </a>
+      {% endif %}
+    </span>
+    </div>
+  </section>
+
+  <!-- Include jQuery -->
+  <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Include DataTables JS -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+  
+  <script>
+      $(document).ready(function() {
+          $('#productoTable').DataTable({
+             "dom": 't'
+          });
+      });
+  </script>
 {% endblock %}

@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Confirmar Completar Orden</title>
-</head>
-<body>
-    <h1>¿Estás seguro de que deseas completar la orden?</h1>
-    <p>Orden ID: {{ orden.id }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Sí, completar orden</button>
-        <a href="{% url 'detalle_orden' orden.id %}">Cancelar</a>
-    </form>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <section class="confirm-delete-container">
+      <h1 class="delete-header">¿Estás seguro de que deseas completar la orden?</h1>
+      <div class="p-3">
+        <h4 class="text-center h4">Orden ID: {{ orden.id }}</h4>
+        <form method="post" id="f-delete">
+          {% csrf_token %}
+        </form>
+        <div class="d-flex justify-content-center gap-3 mt-5">
+          <button form="f-delete" class="btn" type="submit">Confirmar</button>
+          <a class="d-inline btn" href="{% url 'detalle_orden' orden.id %}">Cancelar</a>
+        </div>
+      </div>
+    </section>
+{% endblock %}

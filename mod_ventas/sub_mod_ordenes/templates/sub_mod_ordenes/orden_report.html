@@ -1,71 +1,87 @@
 {% extends "base.html" %}
+{% load static %} 
 
 {% block content %}
-    <h1 class="module-title">Reporte de Órdenes</h1>
-    <a href="{% url 'ordenes_reporte_excel' %}" class="btn btn-primary">Exportar a Excel</a>
-    <section class="bottom-section d-flex justify-content-center">
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr class="table-header">
-              <th scope="col">ID Orden</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Fecha Creación</th>
-              <th scope="col">Completada</th>
-              <th scope="col">Dirección Envío</th>
-              <th scope="col">Nombre Cliente</th>
-              <th scope="col">Teléfono Cliente</th>
-              <th scope="col">Factura</th>
-              <th scope="col">Tiempo Despacho Esperado</th>
-              <th scope="col">Tiempo Despacho Real</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for orden in orders %}
-          <tr>
-            <td>
-              <p>{{ orden.id }}</p>
-            </td>
-            <td>
-              <p>{{ orden.usuario.username }}</p>
-            </td>
-            <td>
-              <p>{{ orden.fecha_creacion }}</p>
-            </td>
-            <td>
-              <p>{{ orden.completada }}</p>
-            </td>
-            <td>
-              <p>{{ orden.direccion_envio }}</p>
-            </td>
-            <td>
-              <p>{{ orden.nombre_cliente }}</p>
-            </td>
-            <td>
-              <p>{{ orden.numero_telefono_cliente }}</p>
-            </td>
-            <td>
-              <p>{{ orden.factura }}</p>
-            </td>
-            <td>
-              <p>{{ orden.tiempo_despacho_esperado }}</p>
-            </td>
-            <td>
-              <p>{{ orden.tiempo_despacho_real }}</p>
-            </td>
-            <td>
-              <p>{{ orden.get_total }}</p>
-            </td>
-          </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-        <div class="report-summary">
-          <p>Total Órdenes: {{ total_orders }}</p>
-          <p>Total Items: {{ total_items }}</p>
-          <p>Total Ingresos: {{ total_revenue }}</p>
+    <div class="buttons-container mt-4">
+      <a  class="btn d-inline" href="{% url 'ordenes_reporte_excel' %}">
+        Exportar a Excel
+      </a>
+    </div>
+    
+    <section class="report">
+      <div class="report-header">
+        <h1 class="report-title">Reporte de Órdenes</h1>
+        <div class="logo-container-report">
+          <img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
+          DUNAMIS S.A
         </div>
       </div>
-    </section>
+        <div class="table-responsive">
+          <table class="table report-table table-striped">
+            <thead>
+              <tr class="table-header">
+                <th scope="col">ID Orden</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha Creación</th>
+                <th scope="col">Completada</th>
+                <th scope="col">Dirección Envío</th>
+                <th scope="col">Nombre Cliente</th>
+                <th scope="col">Teléfono Cliente</th>
+                <th scope="col">Factura</th>
+                <th scope="col">Tiempo Despacho Esperado</th>
+                <th scope="col">Tiempo Despacho Real</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+        {% for orden in orders %}
+            <tr>
+              <td>
+                <p>{{ orden.id }}</p>
+              </td>
+              <td>
+                <p>{{ orden.usuario.username }}</p>
+              </td>
+              <td>
+                <p>{{ orden.fecha_creacion }}</p>
+              </td>
+              <td>
+                <p>{{ orden.completada }}</p>
+              </td>
+              <td>
+                <p>{{ orden.direccion_envio }}</p>
+              </td>
+              <td>
+                <p>{{ orden.nombre_cliente }}</p>
+              </td>
+              <td>
+                <p>{{ orden.numero_telefono_cliente }}</p>
+              </td>
+              <td>
+                <p>{{ orden.factura }}</p>
+              </td>
+              <td>
+                <p>{{ orden.tiempo_despacho_esperado }}</p>
+              </td>
+              <td>
+                <p>{{ orden.tiempo_despacho_real }}</p>
+              </td>
+              <td>
+                <p>{{ orden.get_total }}</p>
+              </td>
+          </tr>
+        {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        <div class="total-info">
+          <div class="total-info-wrapper">
+            <ul class="total-list">
+              <li>Total Órdenes: <span>{{ total_orders }}</span></li>
+              <li>Total Items: <span> {{ total_items }}</span></li>
+              <li>Total Ingresos: <span>₡ {{ total_revenue }}</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
 {% endblock %}

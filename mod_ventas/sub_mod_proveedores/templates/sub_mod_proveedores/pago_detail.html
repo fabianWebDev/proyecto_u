@@ -1,9 +1,31 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-    <h2>Detalle del Pago</h2>
-    <p>Proveedor: {{ pago.proveedor.nombre }}</p>
-    <p>Cantidad: {{ pago.cantidad }}</p>
-    <p>Fecha: {{ pago.fecha_pago }}</p>
-    <p>Descripción: {{ pago.descripcion }}</p>
+    <h2 class="text-center mt-4">Detalle del Pago</h2>
+   
+    <section class="list-container">
+        <section class="bottom-section d-flex justify-content-center">
+          <div class="table-responsive">
+            <table id="pagoTable" class="table table-striped provider-table">
+              <thead>
+                <tr class="table-header">
+                  <th scope="col">Proveedor</th>
+                  <th scope="col">Fecha Pago</th>
+                  <th scope="col">Cantidad</th>
+                  <th scope="col">Descripción</th>
+                </tr>
+              </thead>
+                <tbody>
+                <tr>
+                  <td><p>{{ pago.proveedor.nombre }}</p></td>
+                  <td><p>{{ pago.fecha_pago }}</p></td>
+                  <td><p>{{ pago.cantidad }}</p></td>
+                  <td><p>{{ pago.descripcion }}</p></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </section>  
+        </section>
 {% endblock %}

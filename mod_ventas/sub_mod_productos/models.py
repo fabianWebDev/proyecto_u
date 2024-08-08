@@ -7,8 +7,8 @@ from mod_ventas.sub_mod_proveedores.models import Proveedor
 
 class TipoProducto(models.Model):
     nombre =  models.CharField(max_length=100, default='')
-    descripcion = models.CharField(max_length=255)
     activo = models.BooleanField(default=True)
+    descripcion = models.CharField(max_length=255)
     
     def __str__(self):
         return self.nombre

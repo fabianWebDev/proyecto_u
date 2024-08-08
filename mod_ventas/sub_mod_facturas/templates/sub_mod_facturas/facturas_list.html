@@ -27,7 +27,7 @@
                 {% for factura in facturas %}
                 <tr>
                   <td>
-                    <p>Factura # <a href="{% url 'factura_detalle' factura.id %}">{{ factura.numero_factura }}</a></p>
+                    <p><a href="{% url 'factura_detalle' factura.id %}">Factura #   {{ factura.numero_factura }}</a></p>
                   </td>
                   <td>
                     <p>{{ factura.fecha_emision }}</p>
