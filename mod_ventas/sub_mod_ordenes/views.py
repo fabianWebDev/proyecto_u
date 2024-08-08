@@ -208,3 +208,27 @@ class OrdenesReportExportView(View):
         wb.save(response)
 
         return response
+    
+class CancelarOrdenView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        orden_id = kwargs.get('orden_id')
+        if not orden_id:
+            messages.error(request, "Orden ID no proporcionado.")
+            return redirect('lista_ordenes')
+
+        orden = get_object_or_404(Orden, pk=orden_id, usuario=request.user)
+
+        if orden.completada:
+            messages.error(request, "No se puede cancelar una orden completada.")
+            return redirect('detalle_orden', pk=orden_id)
+
+        # Restaurar el stock de los productos
+        for item in orden.items.all():
+            item.producto.stock += item.cantidad
+            item.producto.save()
+
+        # Eliminar la orden
+        orden.delete()
+
+        messages.success(request, "La orden ha sido cancelada.")
+        return redirect('lista_ordenes')

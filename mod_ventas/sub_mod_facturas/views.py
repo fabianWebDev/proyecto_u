@@ -1,8 +1,11 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views.generic import ListView, DetailView
+from django.views import View
+from openpyxl import Workbook
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Factura, FacturaDetalle
 from django.db.models import Sum, F
+from mod_ventas.sub_mod_productos.models import Producto
 
 class FacturaListView(LoginRequiredMixin, ListView):
     model = Factura
@@ -38,9 +41,41 @@ class MontoFacturadoPorProductoView(LoginRequiredMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return FacturaDetalle.objects.values('producto').annotate(
-            monto_total=Sum(F('cantidad') * F('precio_unitario'))
-        ).order_by('producto')
-
+        return Producto.objects.annotate(
+            monto_total=Sum(F('facturadetalle__cantidad') * F('facturadetalle__precio_unitario'))
+        ).filter(facturadetalle__isnull=False).order_by('id')
+        
     def handle_no_query_results(self):
         raise Http404("No FacturaDetalle found.")
+    
+class MontoFacturadoPorProductoExportView(View):
+    def get(self, request):
+        wb = Workbook()
+        ws = wb.active
+        ws.title = "Reporte de Productos Facturados"
+
+        headers = [
+            "ID Producto", "Nombre", "Tipo Producto", "Monto Total Facturado"
+        ]
+        ws.append(headers)
+
+        productos = Producto.objects.annotate(
+            monto_total=Sum(F('facturadetalle__cantidad') * F('facturadetalle__precio_unitario'))
+        ).filter(facturadetalle__isnull=False).order_by('id')
+
+        for producto in productos:
+            row = [
+                producto.id,
+                producto.nombre,
+                producto.tipo_producto.nombre if producto.tipo_producto else '',  # Asegúrate de convertir el objeto a un valor simple
+                producto.monto_total or 0,
+            ]
+            ws.append(row)
+
+        response = HttpResponse(
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename=reporte_productos_facturados.xlsx'
+        wb.save(response)
+
+        return response

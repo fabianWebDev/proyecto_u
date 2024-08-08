@@ -20,18 +20,18 @@ class Proveedor(models.Model):
     
     def clean(self):
         super().clean()
-        if self.saldo_adeudado < 0:
+        if self.saldo_adeudado is not None and self.saldo_adeudado < 0:
             raise ValidationError({'saldo_adeudado': 'El saldo adeudado no puede ser menor a 0.'})
-        if self.numero_telefonico < 0:
+        if self.numero_telefonico is not None and self.numero_telefonico < 0:
             raise ValidationError({'numero_telefonico': 'El número telefónico no puede ser menor a 0.'})
-        if self.tiempo_despacho_aprox < 0:
-            raise ValidationError({'tiempo_despacho_aprox': 'El tiempo de despacho apróximado no puede ser menor a 0.'})
+        if self.tiempo_despacho_aprox is not None and self.tiempo_despacho_aprox < 0:
+            raise ValidationError({'tiempo_despacho_aprox': 'El tiempo de despacho aproximado no puede ser menor a 0.'})
     
 class PagoProveedor(models.Model):
-    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name='pagos')
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE, related_name='pagos', default='')
     fecha_pago = models.DateField(auto_now_add=True)
-    cantidad = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
-    descripcion = models.TextField(blank=True, null=True)
+    cantidad = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=0)
+    descripcion = models.TextField(blank=True, null=True, default='')
 
     def __str__(self):
         return f"Pago de {self.cantidad} a {self.proveedor.nombre} en {self.fecha_pago}"
