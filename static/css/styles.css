@@ -221,7 +221,7 @@ main {
 }
 
 .menu .nav-link.active img{
-  filter: opacity(0.6) drop-shadow(0 0 0 rgb(10, 65, 183));
+  filter: opacity(0.6) drop-shadow(0 0 0 blue);
 }
 
 .item-name{
