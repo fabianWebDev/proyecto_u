@@ -63,6 +63,24 @@ main {
 }
 
 /******** NAVBAR ********/
+.user{
+  display: flex;
+  flex-basis: 20%;
+  gap: 10px;
+}
+
+.user-name{
+  display: flex;
+  gap: 10px;
+  font-weight: 500;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.user-name span{
+  color: #000;
+}
+
 .navbar {
   background-color: #fff;
   padding: 8px 0;
@@ -84,6 +102,8 @@ main {
   gap: 8px;
   text-align: center;
   font-weight: 600;
+  margin: 0;
+  margin-left: 96px;
 }
 
 .navbar-brand img {
@@ -200,13 +220,34 @@ main {
   color: var(--font-color);
 }
 
+.menu .nav-link.active img{
+  filter: opacity(0.6) drop-shadow(0 0 0 rgb(10, 65, 183));
+}
+
 .item-name{
+  position: relative;
   margin: 0;
   font-size: 16px;
   font-weight: 500;
   display: none;
   text-wrap: nowrap ;
 }
+
+.item-name::after{
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  content: "";
+  height: 2px;
+  width: 0;
+  background-color: #005b4a;
+  transition: all 200ms ease-in-out ;
+}
+
+.item-name:hover::after{
+  width: 100%;
+}
+
 
 .menu.isOpen .item-name{
   display: block;
@@ -300,7 +341,7 @@ a .card:hover {
 .buttons-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: end;
   align-items: center;
   gap: 16px;
   margin-bottom: 28px;
@@ -343,6 +384,10 @@ a .card:hover {
   border-spacing: 0;
   border-collapse: separate;
   border: 1px solid #CACACA;
+}
+
+.table p a{
+  color: var(--primary-color);
 }
 
 th img{
@@ -468,7 +513,8 @@ tbody td p {
 .product-form input[type="text"],
 .product-form input[type="file"],
 .product-form input[type="number"],
-.product-form input[type="email"]{
+.product-form input[type="email"],
+.product-form input[type="date"]{
   background-color: #FAFAFA;
   padding: 6px 12px;
   border-radius: 6px;
@@ -500,7 +546,7 @@ tbody td p {
   justify-content: start;
   align-items: center;
   width: 100%;
-  margin-top: 28px;
+  margin-top: 10px;
 }
 
 .step-links img{

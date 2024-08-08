@@ -1,27 +1,46 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-  <h1>Factura {{ factura.numero_factura }}</h1>
-  <p>Fecha de emisión: {{ factura.fecha_emision }}</p>
-  <p>Total: {{ factura.total }}</p>
-  
-  <h2>Detalles</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio Unitario</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for detalle in detalles %}
-        <tr>
-          <td>{{ detalle.producto }}</td>
-          <td>{{ detalle.cantidad }}</td>
-          <td>{{ detalle.precio_unitario }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="order-details mt-5">
+		<h2 class="order-details-title">Factura # {{ factura.numero_factura }}</h2>
+		<div class="order-wrapper">
+			<div class="details">
+				<h3>Detalle</h3>
+				<ul class="order-details-list">
+					<li>Fecha de emisión: <span>{{ factura.fecha_emision }}</span></li>
+					<li>Total: <span>{{ factura.total }}</span></li>				
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="order-items mt-3">
+		<h3 class="order-items-title">Productos</h3>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr class="table-header">
+						<th scope="col">Producto</th>
+						<th scope="col">Cantidad</th>
+						<th scope="col">Precio Unitario</th>
+					</tr>
+				</thead>
+				<tbody>
+          {% for detalle in detalles %}
+						<tr>
+							<td>
+								<p>{{ detalle.producto }}</p>
+							</td>
+							<td>
+								<p>{{ detalle.cantidad }}</p>
+							</td>
+							<td>
+								<p>{{ detalle.precio_unitario }}</p>
+							</td>
+            </tr>
+          {% endfor %}
+			</tbody>
+		</table>
+		</div>
+	</div>
 {% endblock %}

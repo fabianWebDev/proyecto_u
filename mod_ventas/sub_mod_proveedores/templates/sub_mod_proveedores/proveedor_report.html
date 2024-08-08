@@ -2,6 +2,13 @@
 {% load static %}
 
 {% block content %}
+
+<div class="buttons-container mt-4">
+	<a  class="btn d-inline" href="{% url 'proveedor_reporte_excel' %}">
+		Exportar a Excel
+	</a>
+</div>
+
 <section class="report">
 	<div class="report-header">
 		<h1 class="report-title">Reporte de Proveedores</h1>
@@ -9,7 +16,6 @@
 			<img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
 			DUNAMIS S.A
 		</div>
-		<a href="{% url 'proveedor_reporte_excel' %}" class="btn btn-primary">Exportar a Excel</a>		
 	</div>
 	<div class="table-responsive">
 		<table class="table report-table table-striped">

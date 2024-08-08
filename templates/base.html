@@ -17,7 +17,7 @@
     <!-- navbar -->
     <nav class="navbar">
       <div class="container-fluid container-xxl">
-        <div class="d-flex w-100">
+        <div class="d-flex align-items-center w-100">
           {% if user.is_authenticated %}
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -29,6 +29,11 @@
               <img class="logo" src="{% static 'img/logo.svg' %}" alt="Logo">
               DUNAMIS S.A
             </a>
+          </div>
+          <div class="user">
+            {% if user.is_authenticated %}
+              <p class="user-name">Usuario: <span>    {{ user.username }}</span></p>
+            {% endif %}
           </div>
         </div>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
@@ -104,39 +109,39 @@
         <label for="menu-button"><div class="menu-arrow"></div></label>
       </div>
 
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" id="navbarNav">
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'proveedor_list' %}">
+          <a class="nav-link" href="{% url 'proveedor_list' %}">
             <img class="nav-icon" src="{% static 'icons/proveedores.svg' %}" alt="icono de inventario">
             <p class="item-name">Proveedores</p>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'producto_list' %}">
+          <a class="nav-link" href="{% url 'producto_list' %}">
             <img class="nav-icon" src="{% static 'icons/inventario.png' %}" alt="icono de inventario">
             <p class="item-name">Productos</p>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'lista_ordenes' %}">
+          <a class="nav-link" href="{% url 'lista_ordenes' %}">
             <img class="nav-icon" src="{% static 'icons/Ordenes.svg' %}" alt="icono de inventario">
             <p class="item-name">Ordenes</p>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'facturas' %}">
+          <a class="nav-link" href="{% url 'facturas' %}">
             <img class="nav-icon" src="{% static 'icons/facturas.svg' %}" alt="icono de inventario">
             <p class="item-name">Facturas</p>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'register' %}">
+          <a class="nav-link" href="{% url 'register' %}">
             <img class="nav-icon" src="{% static 'icons/add-user.svg' %}" alt="icono de inventario">
             <p class="item-name">Registrar Usuario</p>
           </a>
         </li>
         <li class="nav-item logout">
-          <a class="nav-link active" href="{% url 'logout' %}">
+          <a class="nav-link" href="{% url 'logout' %}">
             <img class="nav-icon" src="{% static 'icons/logout.svg' %}" alt="icono de inventario">
             <p class="item-name">Cerrar Sesión</p>
           </a>
@@ -147,6 +152,7 @@
     {% endif %}
     <main>
       <div class="wrapper container">
+      
         {% if messages %}
         {% for message in messages %}
             {% if message.level == 40 %}  {# 40 es el nivel para mensajes de error #}

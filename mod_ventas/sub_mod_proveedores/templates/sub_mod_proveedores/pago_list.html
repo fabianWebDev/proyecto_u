@@ -1,10 +1,75 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-    <h2>Pagos a Proveedores</h2>
-    <a href="{% url 'pago_nuevo' %}">Nuevo Pago</a>
-    <ul>
-    {% for pago in pagos %}
-        <li><a href="{% url 'pago_detalle' pago.id %}">{{ pago.proveedor.nombre }} - {{ pago.cantidad }}</a></li>
-    {% endfor %}
-    </ul>
+    <section class="list-container">
+      <div class="buttons-container">
+      	<a  class="btn d-inline" href="{% url 'pago_nuevo' %}">
+          Nuevo Pago
+          <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
+        </a>
+      </div>
+      <section class="bottom-section d-flex justify-content-center">
+        <div class="table-responsive">
+          <table id="pagoTable" class="table table-striped provider-table">
+            <thead>
+              <tr class="table-header">
+                <th scope="col">Detalle</th>
+                <th scope="col">Proveedor <img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Fecha Pago<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+                <th scope="col">Cantidad<img src="{% static 'icons/sort-icon.png' %}" alt="sort"></th>
+              </tr>
+            </thead>
+          	<tbody>
+              {% for pago in pagos %}
+              <tr>
+              	<td><p><a href="{% url 'pago_detalle' pago.id %}">Detalle<a></p></td>    
+                <td><p>{{ pago.proveedor.nombre }}</p></td>
+                <td><p>{{ pago.fecha_pago }}</p></td>
+                <td><p>{{ pago.cantidad }}</p></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="pagination">
+            <span class="step-links">
+              {% if page_obj.has_previous %}
+                <a class="first" href="?page=1">
+                  <img src="{% static 'icons/double-left-arrow.png' %}" alt="left-arrow">
+                </a>
+              	<a class="prev" href="?page={{ page_obj.previous_page_number }}">
+                  <img src="{% static 'icons/leftarrow.png' %}" alt="left-arrow">
+                </a>
+              {% endif %}
+            
+            <span class="current">
+              Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+            </span>
+                
+            {% if page_obj.has_next %}
+              <a class="prev" href="?page={{ page_obj.next_page_number }}">
+                <img src="{% static 'icons/rigth-arrow.png' %}" alt="right-arrow">
+              </a>
+              <a class="last" href="?page={{ page_obj.paginator.num_pages }}">
+                <img src="{% static 'icons/double-right-arrow.png' %}" alt="right-arrow">
+              </a>
+            {% endif %}
+            </span>
+          </div>
+        </div>
+        </section>  
+      </section>
+  
+      <!-- Include jQuery -->
+      <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <!-- Include DataTables JS -->
+      <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+      
+      <script>
+          $(document).ready(function() {
+              $('#pagoTable').DataTable({
+                 "dom": 't'
+              });
+          });
+      </script>
 {% endblock %}
