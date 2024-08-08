@@ -368,6 +368,11 @@ a .card:hover {
   background-color: var(--secondary-color);
 }
 
+.btn-report-icon{
+  width: 28px;
+  margin-left: 2px;
+}
+
 /******** BOTTOM SECTION ********/
 /* .bottom-section {
   padding: 32px 12px;

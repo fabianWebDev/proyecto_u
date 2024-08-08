@@ -8,13 +8,13 @@
 {% block content %}
     <section class="list-container">
       <div class="buttons-container">
-        <a  class="btn d-inline" href="{% url 'orden_report' %}">
-          Generar Reporte
-          <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
-        </a>
         <a  class="btn d-inline" href="{% url 'crear_orden' %}">
           Crear Orden
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de añadir">
+        </a>
+        <a  class="btn d-inline" href="{% url 'orden_report' %}">
+          Generar Reporte
+          <img class="btn-icon btn-report-icon" src="{% static 'icons/excel.png' %}" alt="icono de pdf">
         </a>
       </div>
       <section class="bottom-section d-flex justify-content-center">

@@ -8,10 +8,6 @@
 {% block content %}
     <section class="list-container">
       <div class="buttons-container">
-        <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
-          Generar Reporte
-          <img class="btn-icon" src="{% static 'icons/PDF.svg' %}" alt="icono de pdf">
-        </a>
         <a  class="btn d-inline" href="{% url 'proveedor_crear' %}">
           Añadir Proveedor
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de añadir">
@@ -19,6 +15,10 @@
         <a  class="btn d-inline" href="{% url 'pago_nuevo' %}">
           Realizar Pago
           <img class="btn-icon" src="{% static 'icons/Add.svg' %}" alt="icono de pago">
+        </a>
+        <a  class="btn d-inline" href="{% url 'proveedor_reporte' %}">
+          Generar Reporte
+          <img class="btn-icon btn-report-icon" src="{% static 'icons/excel.png' %}" alt="icono de pdf">
         </a>
       </div>
       <section class="bottom-section d-flex justify-content-center">

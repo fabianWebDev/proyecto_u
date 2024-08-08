@@ -97,6 +97,10 @@
 <div class="d-flex justify-content-center gap-3 my-5">
 	{% if not orden.completada %}
 		<a class="btn d-inline" href="{% url 'completar_orden' orden.id %}">Completar Orden</a>
+		<form action="{% url 'cancelar_orden' orden.id %}" method="post">
+			{% csrf_token %}
+			<button class="btn d-inline" type="submit">Cancelar Orden</button>
+		</form>
 	{% endif %}
 	{% if not orden.tiempo_despacho_real %}
 		<a class="btn d-inline" href="{% url 'set_tiempo_despacho' orden.id %}">Agregar tiempo de despacho final</a>

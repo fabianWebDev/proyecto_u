@@ -4,6 +4,12 @@
 
 {% block content %}
   <section class="list-container">
+    <div class="buttons-container">
+      <a  class="btn d-inline " href="{% url 'reporte_excel' %}">
+        Generar Reporte
+        <img class="btn-icon btn-report-icon" src="{% static 'icons/excel.png' %}" alt="icono de pdf">
+      </a>
+    </div>
     <section class="bottom-section d-flex justify-content-center">
       <div class="table-responsive">
         <table id="productoTable" class="table table-striped provider-table">
@@ -28,7 +34,7 @@
                   {% endif %}
                 </div>
               </td>
-              <td><p>{{ producto.producto }}</p></td>
+              <td><p>{{ producto.id }}</p></td>
               <td><p>{{ producto.nombre }}</p></td>
               <td><p>{{ producto.tipo_producto }}</p></td>
               <td><p>{{ producto.monto_total }}</p></td>

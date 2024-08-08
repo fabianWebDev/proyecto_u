@@ -82,15 +82,22 @@ class PagoProveedorCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('pago_list')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Pago registrado exitosamente!')
         proveedor = form.cleaned_data['proveedor']
         cantidad = form.cleaned_data['cantidad']
+        
+        # Verificar que la cantidad no exceda el saldo adeudado
+        if cantidad > proveedor.saldo_adeudado:
+            form.add_error('cantidad', 'La cantidad del pago no puede exceder el saldo adeudado.')
+            return self.form_invalid(form)
+        
         proveedor.saldo_adeudado -= cantidad
         proveedor.save()
+        
+        messages.success(self.request, 'Pago registrado exitosamente!')
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Error al registrar el pago, intentelo nuevamente.')
+        messages.error(self.request, 'Error al registrar el pago, inténtelo nuevamente.')
         return super().form_invalid(form)
 
 class ProveedorReportView(LoginRequiredMixin, View):
