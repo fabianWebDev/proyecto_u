@@ -24,6 +24,7 @@ class OrdenItemForm(forms.ModelForm):
         model = OrdenItem
         fields = ['producto', 'cantidad']
         
+        
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Set all fields to be required
