@@ -141,8 +141,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after login
-LOGOUT_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after logout
+LOGIN_REDIRECT_URL = 'login'  # or any other URL name where you want to redirect after login
+LOGOUT_REDIRECT_URL = ''  # or any other URL name where you want to redirect after logout
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

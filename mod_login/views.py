@@ -6,7 +6,7 @@ from .forms import CustomUserCreationForm
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('home')  # or another page suitable for logged-in users
+        return redirect('lista_ordenes')  # or another page suitable for logged-in users
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -15,7 +15,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
             messages.success(request, "¡Has ingresado exitosamente al sistema!")
-            return redirect('home')
+            return redirect('lista_ordenes')
         else:
             messages.error(request, "Algo salió mal, intente nuevamente...")
             return redirect('login')
@@ -24,7 +24,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     messages.success(request, '¡Logout exitoso!')
-    return redirect('home')
+    return redirect('lista_ordenes')
 
 @login_required
 def register_user(request):
@@ -33,7 +33,7 @@ def register_user(request):
         if form.is_valid():
             form.save()
             messages.success(request, '¡El usuario fue creado exitosamente!')
-            return redirect('home')
+            return redirect('register')
     else:
         form = CustomUserCreationForm()  # Initialize the form if the request is not POST
     return render(request, 'mod_login/register_user.html', {'form': form})
